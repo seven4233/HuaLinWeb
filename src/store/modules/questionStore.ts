@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { ref , computed} from "vue";
 import { getSortInfo } from "@/api/sys/question";
+import { BankItem } from "@/api/sys/model/questionModel";
 
 
 export const useQuestionStore = defineStore('question', ()=>{
@@ -15,11 +16,12 @@ export const useQuestionStore = defineStore('question', ()=>{
     const multipleCount = ref(0)
     const blankCount = ref(0)
     const judgeCount = ref(0)
-
+    const bankInfo = ref<BankItem>()
     // 根据 题库id 获取分类信息
     const getSortInfoAction = async(bankId: number)=>{
         let res = await getSortInfo(bankId)
         console.log(res)
+        bankInfo.value = res.bankInfo
         singleCount.value = res.count.singleCount
         multipleCount.value = res.count.multipleCount
         blankCount.value = res.count.blankCount
@@ -66,5 +68,6 @@ export const useQuestionStore = defineStore('question', ()=>{
     return {
         sortArr,
         getSortInfoAction,
+        bankInfo
     }
 })

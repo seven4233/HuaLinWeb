@@ -12,7 +12,7 @@
       <Input
         size="large"
         v-model:value="formData.account"
-        :placeholder="t('sys.login.userName')"
+        placeholder="请输入账号或手机号"
         class="fix-auto-fill"
       />
     </FormItem>
@@ -70,28 +70,22 @@
       </ACol>
     </ARow>
 
-    <Divider class="enter-x">{{ t('sys.login.otherSignIn') }}</Divider>
+<!--    <Divider class="enter-x">{{ t('sys.login.otherSignIn') }}</Divider>-->
 
-    <div class="flex justify-evenly enter-x" :class="`${prefixCls}-sign-in-way`">
-      <GithubFilled />
-      <WechatFilled />
-      <AlipayCircleFilled />
-      <GoogleCircleFilled />
-      <TwitterCircleFilled />
-    </div>
+<!--    <div class="flex justify-evenly enter-x" :class="`${prefixCls}-sign-in-way`">-->
+<!--      <GithubFilled />-->
+<!--      <WechatFilled />-->
+<!--      <AlipayCircleFilled />-->
+<!--      <GoogleCircleFilled />-->
+<!--      <TwitterCircleFilled />-->
+<!--    </div>-->
   </Form>
 </template>
 <script lang="ts" setup>
   import { reactive, ref, unref, computed } from 'vue';
 
-  import { Checkbox, Form, Input, Row, Col, Button, Divider } from 'ant-design-vue';
-  import {
-    GithubFilled,
-    WechatFilled,
-    AlipayCircleFilled,
-    GoogleCircleFilled,
-    TwitterCircleFilled,
-  } from '@ant-design/icons-vue';
+  import { Checkbox, Form, Input, Row, Col, Button,  } from 'ant-design-vue';
+
   import LoginFormTitle from './LoginFormTitle.vue';
 
   import { useI18n } from '/@/hooks/web/useI18n';
@@ -100,14 +94,13 @@
   import { useUserStore } from '/@/store/modules/user';
   import { LoginStateEnum, useLoginState, useFormRules, useFormValid } from './useLogin';
   import { useDesign } from '/@/hooks/web/useDesign';
-  //import { onKeyStroke } from '@vueuse/core';
 
   const ACol = Col;
   const ARow = Row;
   const FormItem = Form.Item;
   const InputPassword = Input.Password;
   const { t } = useI18n();
-  const { notification, createErrorModal } = useMessage();
+  const { notification, createErrorModal,  } = useMessage();
   const { prefixCls } = useDesign('login');
   const userStore = useUserStore();
 
@@ -139,17 +132,18 @@
         account: data.account,
         mode: 'none', //不要默认的错误提示
       });
+      console.log(userInfo);
       if (userInfo) {
         notification.success({
           message: t('sys.login.loginSuccessTitle'),
-          description: `${t('sys.login.loginSuccessDesc')}: ${userInfo.realName}`,
+          description: `${t('sys.login.loginSuccessDesc')}: ${userInfo.realName ||userInfo.username || userInfo.account}`,
           duration: 3,
         });
       }
     } catch (error) {
       createErrorModal({
         title: t('sys.api.errorTip'),
-        content: (error as unknown as Error).message || t('sys.api.networkExceptionMsg'),
+        content: (error as unknown as any).response.data.message || t('sys.api.networkExceptionMsg'),
         getContainer: () => document.body.querySelector(`.${prefixCls}`) || document.body,
       });
     } finally {

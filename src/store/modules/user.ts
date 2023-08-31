@@ -6,8 +6,13 @@ import { RoleEnum } from '/@/enums/roleEnum';
 import { PageEnum } from '/@/enums/pageEnum';
 import { ROLES_KEY, TOKEN_KEY, USER_INFO_KEY } from '/@/enums/cacheEnum';
 import { getAuthCache, setAuthCache } from '/@/utils/auth';
-import { GetUserInfoModel, LoginParams } from '/@/api/sys/model/userModel';
-import { doLogout, getUserInfo, loginApi, updateUserInfo } from "/@/api/sys/user";
+import {
+  GetUserInfoModel,
+  LoginMobileParams,
+  LoginParams,
+  RegisterParams
+} from "/@/api/sys/model/userModel";
+import { getUserInfo, loginApi, loginByMobile, registerApi, updateUserInfo } from "/@/api/sys/user";
 import { useI18n } from '/@/hooks/web/useI18n';
 import { useMessage } from '/@/hooks/web/useMessage';
 import { router } from '/@/router';
@@ -16,7 +21,6 @@ import { RouteRecordRaw } from 'vue-router';
 import { PAGE_NOT_FOUND_ROUTE } from '/@/router/routes/basic';
 import { isArray } from '/@/utils/is';
 import { h } from 'vue';
-
 interface UserState {
   userInfo: Nullable<UserInfo>;
   token?: string;
@@ -91,7 +95,6 @@ export const useUserStore = defineStore({
       try {
         const { goHome = true, mode, ...loginParams } = params;
         const data = await loginApi(loginParams, mode);
-        console.log(data);
         const { token } = data;
 
         // save token
@@ -101,6 +104,20 @@ export const useUserStore = defineStore({
         return Promise.reject(error);
       }
     },
+
+    //注册
+    async register(params: RegisterParams ){
+      return await registerApi(params)
+    },
+    // 手机号登录
+    async loginByMobileAction(params: LoginMobileParams & {goHome?: boolean;}){
+      const { goHome = true,  ...loginParams } = params;
+      const data =  await loginByMobile(loginParams)
+      const {token} = data
+      this.setToken(token)
+      return this.afterLoginAction(goHome)
+    },
+
     async afterLoginAction(goHome?: boolean): Promise<GetUserInfoModel | null> {
       if (!this.getToken) return null;
       // get user info
@@ -143,7 +160,7 @@ export const useUserStore = defineStore({
     async logout(goLogin = false) {
       if (this.getToken) {
         try {
-          await doLogout();
+          // await doLogout();
         } catch {
           console.log('注销Token失败');
         }

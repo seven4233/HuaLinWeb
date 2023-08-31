@@ -39,11 +39,16 @@
   import RoleDrawer from "@/views/system/role/RoleDrawer.vue";
 
   import { columns, searchFormSchema } from './role.data';
+  import { usePermission } from "@/hooks/web/usePermission";
+  import { RoleEnum } from "@/enums/roleEnum";
+  import { useMessage } from "@/hooks/web/useMessage";
 
   export default defineComponent({
     name: 'RoleManagement',
     components: { BasicTable, RoleDrawer, TableAction },
     setup() {
+      const {hasPermission} = usePermission()
+      const {createMessage} = useMessage()
       const [registerDrawer, { openDrawer }] = useDrawer();
       const [registerTable, { reload }] = useTable({
         title: '角色列表',
@@ -67,12 +72,18 @@
       });
 
       function handleCreate() {
+        if(!hasPermission(RoleEnum.SUPER)){
+          return  createMessage.error("您没有操作权限")
+        }
         openDrawer(true, {
           isUpdate: false,
         });
       }
 
       function handleEdit(record: Recordable) {
+        if(!hasPermission(RoleEnum.SUPER)){
+          return  createMessage.error("您没有操作权限")
+        }
         openDrawer(true, {
           record,
           isUpdate: true,
@@ -80,6 +91,9 @@
       }
 
       function handleDelete(record: Recordable) {
+        if(!hasPermission(RoleEnum.SUPER)){
+          return  createMessage.error("您没有操作权限")
+        }
         console.log(record);
       }
       // 提交修改

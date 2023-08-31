@@ -7,6 +7,23 @@ export interface LoginParams {
   account: string;
   password: string;
 }
+export interface RegisterParams {
+  account: string;
+  password: string;
+  confirmPass:string;
+  sms:string;
+  mobile:string;
+  policy:boolean
+}
+
+export interface LoginMobileParams {
+  mobile: string;
+  sms: string;
+}
+export interface GetCodeParams {
+  mobile: string;
+  mode:'login'|'register'|'reset',
+}
 
 export interface RoleInfo {
   roleName: string;
@@ -26,7 +43,5 @@ export interface LoginResultModel {
  * @description: Get user information return value
  */
 export interface GetUserInfoModel extends UserInfo{
-
-
 
 }

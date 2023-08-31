@@ -2,7 +2,7 @@
   <PageWrapper dense contentFullHeight fixedHeight contentClass="flex">
     <BasicTable @register="registerTable" :searchInfo="searchInfo">
       <template #toolbar>
-        <a-button type="primary" @click="handleCreate">新增账号</a-button>
+        <a-button  type="primary" @click="handleCreate" >新增账号</a-button>
       </template>
       <template #bodyCell="{ column, record }">
         <template v-if="column.key === 'action'">
@@ -17,6 +17,8 @@
                 icon: 'clarity:note-edit-line',
                 tooltip: '编辑用户资料',
                 onClick: handleEdit.bind(null, record),
+
+
               },
               {
                 icon: 'ant-design:delete-outlined',
@@ -37,26 +39,36 @@
   </PageWrapper>
 </template>
 <script lang="ts">
-  import { defineComponent, reactive } from 'vue';
+import { defineComponent, reactive } from "vue";
 
-  import { BasicTable, useTable, TableAction } from '@/components/Table';
-  import { getAccountList } from '@/api/sys/system';
-  import { PageWrapper } from '@/components/Page';
+import { BasicTable, TableAction, useTable } from "@/components/Table";
+import { getAccountList } from "@/api/sys/system";
+import { PageWrapper } from "@/components/Page";
 
-  import { useModal } from '@/components/Modal';
-  import AccountModal from './AccountModal.vue';
+import { useModal } from "@/components/Modal";
+import AccountModal from "./AccountModal.vue";
 
-  import { columns, searchFormSchema } from './account.data';
-  import { useGo } from '@/hooks/web/usePage';
+import { columns, searchFormSchema } from "./account.data";
+import { useGo } from "@/hooks/web/usePage";
+import { usePermission } from "@/hooks/web/usePermission";
+import { RoleEnum } from "@/enums/roleEnum";
+import { useMessage } from "@/hooks/web/useMessage";
 
-  export default defineComponent({
+export default defineComponent({
     name: 'AccountManagement',
+    computed: {
+      RoleEnum() {
+        return RoleEnum
+      }
+    },
     components: { BasicTable, PageWrapper, AccountModal, TableAction },
     setup() {
+      const {createMessage} = useMessage()
       const go = useGo();
       const [registerModal, { openModal }] = useModal();
       const searchInfo = reactive<Recordable>({});
-      const [registerTable, { reload, updateTableDataRecord }] = useTable({
+      const {hasPermission} = usePermission()
+      const [registerTable, {  updateTableDataRecord ,reload} ] = useTable({
         title: '账号列表',
         api: getAccountList,
         rowKey: 'id',
@@ -82,6 +94,9 @@
       });
 
       function handleCreate() {
+        if(!hasPermission(RoleEnum.SUPER)){
+          return  createMessage.error("您没有操作权限")
+        }
         openModal(true, {
           isUpdate: false,
         });
@@ -89,6 +104,9 @@
 
       function handleEdit(record: Recordable) {
         console.log(record);
+        if(!hasPermission(RoleEnum.SUPER)){
+          return  createMessage.error("您没有操作权限")
+        }
         openModal(true, {
           record,
           isUpdate: true,
@@ -96,6 +114,9 @@
       }
 
       function handleDelete(record: Recordable) {
+        if(!hasPermission(RoleEnum.SUPER)){
+          return  createMessage.error("您没有操作权限")
+        }
         console.log(record);
       }
 
@@ -105,6 +126,7 @@
           // 注意：updateTableDataRecord要求表格的rowKey属性为string并且存在于每一行的record的keys中
           const result = updateTableDataRecord(values.id, values);
           console.log(result);
+          reload()
         } else {
           reload();
         }
@@ -120,6 +142,7 @@
       }
 
       return {
+        hasPermission,
         registerTable,
         registerModal,
         handleCreate,

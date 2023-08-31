@@ -20,6 +20,7 @@
       </FormItem>
       <FormItem name="sms" class="enter-x">
         <CountdownInput
+          :sendCodeApi="sendCode"
           size="large"
           class="fix-auto-fill"
           v-model:value="formData.sms"
@@ -45,7 +46,7 @@
       <FormItem class="enter-x" name="policy">
         <!-- No logic, you need to deal with it yourself -->
         <Checkbox v-model:checked="formData.policy" size="small">
-          {{ t('sys.login.policy') }}
+          {{ "我同意所谓的隐私政策" }}
         </Checkbox>
       </FormItem>
 
@@ -73,15 +74,20 @@
   import { CountdownInput } from '/@/components/CountDown';
   import { useI18n } from '/@/hooks/web/useI18n';
   import { useLoginState, useFormRules, useFormValid, LoginStateEnum } from './useLogin';
+  import { validatePhoneNumber } from "@/utils/validate";
+  import { sendCodeAPI } from "@/api/sys/user";
+  import { useMessage } from "@/hooks/web/useMessage";
+  import { useUserStore } from "@/store/modules/user";
+  import { useGo } from "@/hooks/web/usePage";
 
   const FormItem = Form.Item;
   const InputPassword = Input.Password;
   const { t } = useI18n();
   const { handleBackLogin, getLoginState } = useLoginState();
-
+const go = useGo()
   const formRef = ref();
   const loading = ref(false);
-
+  const userStore = useUserStore()
   const formData = reactive({
     account: '',
     password: '',
@@ -90,15 +96,34 @@
     sms: '',
     policy: false,
   });
+  const {createMessage} = useMessage()
 
   const { getFormRules } = useFormRules(formData);
   const { validForm } = useFormValid(formRef);
 
   const getShow = computed(() => unref(getLoginState) === LoginStateEnum.REGISTER);
 
+  async function sendCode():Promise<boolean>{
+    console.log(formData.mobile);
+    // 参数校验
+    if (!validatePhoneNumber(formData.mobile) ){
+      createMessage.error("请输入正确的手机号")
+      return false
+    }
+    let res = await sendCodeAPI({mobile: formData.mobile, mode:'register' })
+    console.log(res);
+    return true
+  }
   async function handleRegister() {
     const data = await validForm();
     if (!data) return;
+    // 注册请求
+    let res:any =  await userStore.register(data)
+    if(res.code !==0 ){
+      return  createMessage.error(res.message)
+    }
+    createMessage.success(res.message)
+    handleBackLogin()
     console.log(data);
   }
 </script>

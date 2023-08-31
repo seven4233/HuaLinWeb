@@ -1,10 +1,20 @@
 import { defHttp } from '/@/utils/http/axios';
-import { LoginParams, LoginResultModel, GetUserInfoModel } from './model/userModel';
+import {
+  LoginParams,
+  LoginResultModel,
+  GetUserInfoModel,
+  LoginMobileParams,
+  GetCodeParams,
+  RegisterParams
+} from "./model/userModel";
 
 import { ErrorMessageMode } from '/#/axios';
 
 enum Api {
   Login = '/user/login',
+  Register = '/user/register',
+  LoginMobile='/user/login/mobile',
+  GetCode='/user/smsCode',
   Logout = '/logout',
   GetUserInfo = '/user/getUserInfo',
   GetPermCode = '/getPermCode',
@@ -27,11 +37,31 @@ export function loginApi(params: LoginParams, mode: ErrorMessageMode = 'modal') 
   );
 }
 
+export function registerApi(params: RegisterParams, mode: ErrorMessageMode = 'modal') {
+  return defHttp.post<LoginResultModel>(
+    {
+      url: Api.Register,
+      params,
+    },
+    {
+      errorMessageMode: mode,
+    },
+  );
+}
 /**
  * @description: getUserInfo
  */
 export function getUserInfo() {
   return defHttp.get<GetUserInfoModel>({ url: Api.GetUserInfo }, { errorMessageMode: 'none' });
+}
+//发送验证码
+export function sendCodeAPI(params: GetCodeParams) {
+  return defHttp.get<any>({ url: Api.GetCode, params }, { errorMessageMode: 'none' });
+}
+
+// 手机号登录
+export function loginByMobile(params: LoginMobileParams) {
+  return defHttp.post<any>({ url: Api.LoginMobile , params}, { errorMessageMode: 'none' });
 }
 
 // 更新用户信息

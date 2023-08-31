@@ -15,11 +15,15 @@
   import { BasicForm, useForm } from '/@/components/Form';
 
   import { formSchema } from './pwd.data';
+  import { useAdminStore } from "@/store/modules/adminStore";
+  import { useMessage } from "@/hooks/web/useMessage";
+  import { useUserStore } from "@/store/modules/user";
 
   export default defineComponent({
     name: 'ChangePassword',
     components: { BasicForm, PageWrapper },
     setup() {
+      const {createMessage} = useMessage()
       const [register, { validate, resetFields }] = useForm({
         size: 'large',
         baseColProps: { span: 24 },
@@ -27,16 +31,29 @@
         showActionButtonGroup: false,
         schemas: formSchema,
       });
+      const userStore = useUserStore()
 
+    const adminStore = useAdminStore()
       async function handleSubmit() {
         try {
           const values = await validate();
           const { passwordOld, passwordNew } = values;
-
           // TODO custom api
+          let res:any
+          if(passwordOld){
+            res =  await adminStore.updatePassAction(values)
+          }else{
+            res= await adminStore.setPassAction({ password: passwordNew })
+          }
+
+          if(res.code === 0 ){
+              createMessage.success(res.message)
+          }else {
+            createMessage.error(res.message)
+            return
+          }
           console.log(passwordOld, passwordNew);
-          // const { router } = useRouter();
-          // router.push(pageEnum.BASE_LOGIN);
+          userStore.logout(true)
         } catch (error) {}
       }
 

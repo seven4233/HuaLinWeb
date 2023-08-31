@@ -10,7 +10,7 @@ const dashboard: AppRouteModule = {
   component: LAYOUT,
   redirect: '/dashboard/analysis',
   meta: {
-    orderNo: 1000,
+    orderNo: 4,
     icon: 'ion:grid-outline',
     title: t('routes.dashboard.dashboard'),
     roles:[RoleEnum.SUPER]

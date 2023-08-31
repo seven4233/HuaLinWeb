@@ -1,14 +1,15 @@
 <script lang="ts" setup>
 import { onMounted, ref } from "vue";
 import { useSingleStore } from "@/store/modules/singleStore";
-import { useRouter, useRoute } from "vue-router";
+import { useRoute } from "vue-router";
 import { SingleOption } from "@/api/sys/model/questionModel";
 import { Modal } from "ant-design-vue";
+import { useGo } from "@/hooks/web/usePage";
+import { useQuestionStore } from "../../../store/modules/questionStore";
 
 const singleStore = useSingleStore();
-const router = useRouter();
 const route = useRoute();
-
+const questionStore = useQuestionStore()
 const cardNumList = ref([
   {
     value: 1,
@@ -33,6 +34,8 @@ onMounted(() => {
   singleStore.isSubmit = false;
   // 获取单选题列表
   singleStore.getSingleListAction(Number(route.params.id));
+
+  questionStore.getSortInfoAction(Number(route.params.id))
 });
 
 
@@ -84,10 +87,10 @@ const handleSubmit = () => {
       });
   }
 };
-
+const go = useGo()
 // 退出答题
 const exitQuestion = () => {
-  router.replace("/bank" );
+  go("/bank/list" );
 };
 
 // 继续答题
@@ -135,8 +138,7 @@ const cardNumClick = (index: number) => {
           </span>
           退出答题
         </div>
-
-        <div class="header-title">电业安全工作规程 (第1部分:热力和机械)</div>
+        <div class="header-title">{{ questionStore.bankInfo?.name }}</div>
 
         <!-- 答题卡圈圈 -->
         <div v-if="!singleStore.isSubmit" class="answer_card_list">
@@ -352,6 +354,7 @@ const cardNumClick = (index: number) => {
       margin-left: auto;
       margin-right: auto;
       height: 56px;
+      padding: 0 20px;
 
       .customer-exit {
         --tw-text-opacity: 1;

@@ -1,6 +1,7 @@
 <template>
   <h2 class="mb-3 text-2xl font-bold text-center xl:text-3xl enter-x xl:text-left">
     {{ getFormTitle }}
+    <span class="text-sm font-normal ml-1 color-#666" v-if="getFormTitle===t('sys.login.forgetFormTitle')">注* 重置后的密码为：123abc</span>
   </h2>
 </template>
 <script lang="ts" setup>

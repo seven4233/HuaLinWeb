@@ -1,6 +1,18 @@
 import { defineStore } from 'pinia'
-import { createAccountAPI, createRoleAPI, updateAccountInfo, updateRoleAPI } from "@/api/sys/system";
-import { AccountListItem, RoleListItem } from "@/api/sys/model/systemModel";
+import {
+  createAccountAPI,
+  createRoleAPI, resetPassAPI,
+  setPassAPI,
+  updateAccountInfo,
+  updatePassAPI,
+  updateRoleAPI
+} from "@/api/sys/system";
+import {
+  AccountListItem,
+  PassParam, ResetPassParam,
+  RoleListItem,
+  SetPassParam
+} from "@/api/sys/model/systemModel";
 
 
 export const useAdminStore = defineStore('admin', () => {
@@ -30,6 +42,20 @@ export const useAdminStore = defineStore('admin', () => {
     console.log(res);
   }
 
+  //更新密码
+  const updatePassAction = async(params: PassParam )=>{
+    const res = await updatePassAPI(params)
+    return res
+    console.log(res);
+  }
+  // 设置密码
+  const setPassAction = async (params:SetPassParam)=>{
+     return  await setPassAPI(params)
+  }
+  // 重置密码
+  const resetPassAction = async(params: ResetPassParam)=>{
+    return await resetPassAPI(params)
+  }
 
 
 
@@ -37,6 +63,9 @@ export const useAdminStore = defineStore('admin', () => {
     updateAccountAction,
     createAccountAction,
     updateRoleAction,
-    createRoleAction
+    createRoleAction,
+    updatePassAction,
+    setPassAction,
+    resetPassAction
   }
 })

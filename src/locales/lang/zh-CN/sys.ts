@@ -68,7 +68,7 @@ export default {
     forgetFormTitle: '重置密码',
 
     signInTitle: '做一些好玩的东西',
-    signInDesc: '输入您的个人详细信息开始使用！',
+    signInDesc: '其实也没什么好玩的',
     policy: '我同意xxx隐私政策',
     scanSign: `扫码后点击"确认"，即可完成登录`,
 

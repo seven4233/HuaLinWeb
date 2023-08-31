@@ -39,12 +39,18 @@ export const columns: BasicColumn[] = [
     title: '角色',
     dataIndex: 'role',
     width: 200,
+    format:(text, record, index)=>{
+      if(text==='admin'){
+        return '管理员'
+      }else if(text ==='super'){
+        return '超级管理员'
+      }else{
+        return '普通用户'
+      }
+    }
 
   },
-  {
-    title: '备注',
-    dataIndex: 'remark',
-  },
+
 ];
 
 export const searchFormSchema: FormSchema[] = [
@@ -108,9 +114,5 @@ export const accountFormSchema: FormSchema[] = [
     required: true,
   },
 
-  {
-    label: '备注',
-    field: 'remark',
-    component: 'InputTextArea',
-  },
+
 ];

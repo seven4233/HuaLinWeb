@@ -19,7 +19,7 @@
       const isUpdate = ref(true);
       const rowId = ref('');
 
-      const [registerForm, { setFieldsValue, updateSchema, resetFields, validate }] = useForm({
+      const [registerForm, { setFieldsValue, getFieldsValue,updateSchema, resetFields, validate }] = useForm({
         labelWidth: 100,
         baseColProps: { span: 24 },
         schemas: accountFormSchema,
@@ -59,7 +59,8 @@
               },
               {
                 validator: async(_, value) =>{
-                  let res = await isAccountExist(value, unref(isUpdate))
+                  let userInfo =  getFieldsValue()
+                  let res = await isAccountExist(userInfo as any, unref(isUpdate))
                   if(res.code===-1){
                     return Promise.reject(res.message)
                   }else{

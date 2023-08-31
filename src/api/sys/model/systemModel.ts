@@ -67,6 +67,14 @@ export interface PassParam {
   passwordOld: string;
   passwordNew: string;
 }
+export interface SetPassParam {
+  password: string;
+}
+export interface ResetPassParam {
+  mobile: string;
+  account:string;
+  sms:string
+}
 
 /**
  * @description: Request list return value

@@ -1,7 +1,8 @@
-import type { ValidationRule, FormInstance } from 'ant-design-vue/lib/form/Form';
+import type {  FormInstance } from 'ant-design-vue/lib/form/Form';
 import type { RuleObject, NamePath } from 'ant-design-vue/lib/form/interface';
 import { ref, computed, unref, Ref } from 'vue';
 import { useI18n } from '/@/hooks/web/useI18n';
+import { validateAccount, validatePassword, validatePhoneNumber } from "@/utils/validate";
 
 export enum LoginStateEnum {
   LOGIN,
@@ -70,22 +71,46 @@ export function useFormRules(formData?: Recordable) {
     };
   };
 
-  const getFormRules = computed((): { [k: string]: ValidationRule | ValidationRule[] } => {
+  const getFormRules = computed((): { [k: string]:any } => {
     const accountFormRule = unref(getAccountFormRule);
     const passwordFormRule = unref(getPasswordFormRule);
     const smsFormRule = unref(getSmsFormRule);
     const mobileFormRule = unref(getMobileFormRule);
 
     const mobileRule = {
-      sms: smsFormRule,
-      mobile: mobileFormRule,
+      sms: [smsFormRule,{validator(_,value){
+          if(value.length!== 4){
+            return Promise.reject("请输入4位验证码")
+          }else{
+            return Promise.resolve()
+          }
+        }}],
+      mobile: [mobileFormRule, {validator(_,value){
+        if(!validatePhoneNumber(value)){
+          return Promise.reject("请输入正确的手机号")
+        }else{
+          return Promise.resolve()
+        }
+        }}],
     };
     switch (unref(currentState)) {
       // register form rules
       case LoginStateEnum.REGISTER:
         return {
-          account: accountFormRule,
-          password: passwordFormRule,
+          account: [accountFormRule,{validator(_,value){
+              if(!validateAccount(value)){
+                return Promise.reject("账号在4-12位(只包含字母跟数字)")
+              }else{
+                return Promise.resolve()
+              }
+            }} ],
+          password: [passwordFormRule,{validator(_,value){
+              if(!validatePassword(value)){
+                return Promise.reject("密码为6-20位[包括数字和字母]")
+              }else{
+                return Promise.resolve()
+              }
+            }}],
           confirmPassword: [
             { validator: validateConfirmPassword(formData?.password), trigger: 'change' },
           ],

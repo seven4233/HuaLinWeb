@@ -50,7 +50,8 @@ const bank: AppRouteModule = {
       meta: {
         title: t('routes.bank.single'),
         icon: 'ant-design:book-outlined',
-        hideMenu:true
+        hideMenu:true,
+        ignoreKeepAlive:true
       },
     },
   ],

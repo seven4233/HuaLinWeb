@@ -6,13 +6,15 @@ import {
   MenuListGetResultModel,
   AccountListGetResultModel,
   RolePageListGetResultModel,
-  RoleListGetResultModel, AccountListItem, RoleListItem, PassParam
+  RoleListGetResultModel, AccountListItem, RoleListItem, PassParam, SetPassParam, ResetPassParam
 } from "./model/systemModel";
 import { defHttp } from '@/utils/http/axios';
 
 enum Api {
   AccountList = '/user',
   GetAllRoleList = '/admin/role',
+  SetPassword='/user/setPassword',
+  ResetPassword='/user/resetPassword',
   IsAccountExist = '/user/accountExist',
   UpdateAccountInfo = '/admin/update',
   CreateAccount = '/admin/create',
@@ -20,7 +22,7 @@ enum Api {
   setRoleStatus = '/admin/setRoleStatus',
   UpdateRole= '/admin/role',
   CreateRole='/admin/role',
-  UpdatePassword='/admin/password',
+  UpdatePassword='/user/password',
 
   DeptList = '/system/getDeptList',
   MenuList = '/system/getMenuList',
@@ -41,6 +43,12 @@ export const updateRoleAPI = (params: RoleListItem) =>
 export const updatePassAPI = (params: PassParam) =>
   defHttp.put<AccountListGetResultModel>({ url: Api.UpdatePassword, params });
 
+export const setPassAPI = (params: SetPassParam) =>
+  defHttp.post<AccountListGetResultModel>({ url: Api.SetPassword, params });
+
+export const resetPassAPI = (params: ResetPassParam) =>
+  defHttp.post<AccountListGetResultModel>({ url: Api.ResetPassword, params });
+
 export const createRoleAPI = (params: RoleListItem) =>
   defHttp.post<AccountListGetResultModel>({ url: Api.CreateRole, params });
 
@@ -56,5 +64,5 @@ export const getAllRoleList = (params?: RoleParams) =>
 export const setRoleStatus = (id: number, status: number) =>
   defHttp.post({ url: Api.setRoleStatus, params: { id, status } });
 
-export const isAccountExist = (account: string, isUpdate: boolean) =>
-  defHttp.post({ url: Api.IsAccountExist, params: { account,isUpdate } }, { errorMessageMode: 'none' });
+export const isAccountExist = (accountInfo: AccountListItem, isUpdate: boolean) =>
+  defHttp.post({ url: Api.IsAccountExist, params: { accountInfo,isUpdate } }, { errorMessageMode: 'none' });

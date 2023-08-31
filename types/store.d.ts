@@ -38,6 +38,7 @@ export interface UserInfo {
   desc?: string;
   homePath?: string;
   roles: RoleInfo[];
+  password:string;
   //性别
   gender: number;
   //昵称

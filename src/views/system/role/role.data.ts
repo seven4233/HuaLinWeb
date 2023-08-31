@@ -1,10 +1,13 @@
-import { BasicColumn, FormSchema } from '/@/components/Table';
-import { h } from 'vue';
-import { Switch } from 'ant-design-vue';
-import { setRoleStatus } from '/@/api/sys/system';
-import { useMessage } from '/@/hooks/web/useMessage';
+import { BasicColumn, FormSchema } from "/@/components/Table";
+import { h } from "vue";
+import { Switch } from "ant-design-vue";
+import { setRoleStatus } from "/@/api/sys/system";
+import { useMessage } from "/@/hooks/web/useMessage";
 import { formatToDateTime } from "@/utils/dateUtil";
+import { usePermission } from "@/hooks/web/usePermission";
+import { RoleEnum } from "@/enums/roleEnum";
 
+const  {hasPermission} = usePermission()
 export const columns: BasicColumn[] = [
 
   {
@@ -25,15 +28,19 @@ export const columns: BasicColumn[] = [
       if (!Reflect.has(record, 'pendingStatus')) {
         record.pendingStatus = false;
       }
+      const { createMessage } = useMessage();
       return h( Switch as any, {
         checked: record.status === 1,
         checkedChildren: '停用',
         unCheckedChildren: '启用',
         loading: record.pendingStatus,
         onChange(checked: boolean) {
+          if(!hasPermission(RoleEnum.SUPER )){
+            return  createMessage.error(`您没有操作权限`);
+          }
           record.pendingStatus = true;
           const newStatus = checked ? 1 : 0;
-          const { createMessage } = useMessage();
+
           setRoleStatus(record.id, newStatus)
             .then(() => {
               record.status = newStatus;

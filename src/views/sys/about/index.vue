@@ -3,9 +3,9 @@
     <template #headerContent>
       <div class="flex justify-between items-center">
         <span class="flex-1">
-          <a :href="GITHUB_URL" target="_blank">{{ name }}</a>
+          <a :href="GITHUB_URL" target="_blank">{{ "Lin Web" }}</a>
           是一个基于Vue3.0、Vite、 Ant-Design-Vue 、TypeScript
-          的后台解决方案，目标是为中大型项目开发,提供现成的开箱解决方案及丰富的示例,原则上不会限制任何代码用于商用。
+          的后台管理系统，目标是为方便一些个人操作。
         </span>
       </div>
     </template>
@@ -19,11 +19,11 @@
   import { Tag } from 'ant-design-vue';
   import { PageWrapper } from '/@/components/Page';
   import { Description, DescItem, useDescription } from '/@/components/Description/index';
-  import { GITHUB_URL, SITE_URL, DOC_URL } from '/@/settings/siteSetting';
+  import { GITHUB_URL } from '/@/settings/siteSetting';
 
   const { pkg, lastBuildTime } = __APP_INFO__;
 
-  const { dependencies, devDependencies, name, version } = pkg;
+  const { dependencies, devDependencies, version } = pkg;
 
   const schema: DescItem[] = [];
   const devSchema: DescItem[] = [];
@@ -42,16 +42,7 @@
       field: 'lastBuildTime',
       render: commonTagRender('blue'),
     },
-    {
-      label: '文档地址',
-      field: 'doc',
-      render: commonLinkRender('文档地址'),
-    },
-    {
-      label: '预览地址',
-      field: 'preview',
-      render: commonLinkRender('预览地址'),
-    },
+
     {
       label: 'Github',
       field: 'github',
@@ -62,8 +53,6 @@
   const infoData = {
     version,
     lastBuildTime,
-    doc: DOC_URL,
-    preview: SITE_URL,
     github: GITHUB_URL,
   };
 
