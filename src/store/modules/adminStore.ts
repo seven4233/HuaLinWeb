@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import {
   createAccountAPI,
-  createRoleAPI, resetPassAPI,
+  createRoleAPI, getRankListAPI, getUserDetail, resetPassAPI,
   setPassAPI,
   updateAccountInfo,
   updatePassAPI,
@@ -13,15 +13,22 @@ import {
   RoleListItem,
   SetPassParam
 } from "@/api/sys/model/systemModel";
+import { ref } from "vue";
 
 
 export const useAdminStore = defineStore('admin', () => {
-  // const bankList = ref<BankItem[]>()
+const rankList = ref<AccountListItem[]>()
+  const accountDetail = ref<AccountListItem>()
 
 //   更新账号信息
   const updateAccountAction = async(params: AccountListItem)=>{
     let res = await updateAccountInfo(params)
     console.log(res);
+  }
+  // 获取用户详情
+  const getDetailAction = async(params: {id:number})=>{
+    const res = await getUserDetail(params)
+    accountDetail.value = res
   }
 
   // 创建账号
@@ -46,7 +53,6 @@ export const useAdminStore = defineStore('admin', () => {
   const updatePassAction = async(params: PassParam )=>{
     const res = await updatePassAPI(params)
     return res
-    console.log(res);
   }
   // 设置密码
   const setPassAction = async (params:SetPassParam)=>{
@@ -56,10 +62,18 @@ export const useAdminStore = defineStore('admin', () => {
   const resetPassAction = async(params: ResetPassParam)=>{
     return await resetPassAPI(params)
   }
-
+  //   获取用户列表
+  const getRankListAction = async () => {
+    const res:any = await getRankListAPI()
+    rankList.value = res
+  }
 
 
   return {
+  rankList,
+    accountDetail,
+    getDetailAction,
+    getRankListAction,
     updateAccountAction,
     createAccountAction,
     updateRoleAction,

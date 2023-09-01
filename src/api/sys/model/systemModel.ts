@@ -24,6 +24,9 @@ export type MenuParams = {
 
 export interface AccountListItem {
   id: string;
+  avatar:string;
+  address:string;
+  doneCount:number;
   account: string;
   email: string;
   nickname: string;
@@ -34,6 +37,14 @@ export interface AccountListItem {
   createTime: string;
   remark: string;
   status: number;
+  sign:string;
+  levelInfo:{
+    bgColor:string;
+    color: string;
+    level:number;
+    name:string;
+    doneCount:number;
+  }
 }
 
 export interface DeptListItem {

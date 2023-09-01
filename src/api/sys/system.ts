@@ -17,17 +17,28 @@ enum Api {
   ResetPassword='/user/resetPassword',
   IsAccountExist = '/user/accountExist',
   UpdateAccountInfo = '/admin/update',
+  GetRankList='/user/rank',
   CreateAccount = '/admin/create',
   RolePageList = '/admin/getRoleListByPage',
   setRoleStatus = '/admin/setRoleStatus',
   UpdateRole= '/admin/role',
   CreateRole='/admin/role',
   UpdatePassword='/user/password',
-
+  GetUserInfoById = '/user/detail',
   DeptList = '/system/getDeptList',
   MenuList = '/system/getMenuList',
 }
 
+/**
+ * 获取用户排行榜列表
+ */
+export const getRankListAPI = ()=>
+   defHttp.get({url:Api.GetRankList})
+
+
+// 获取用户详情
+export const getUserDetail = (params:{id:number})=>
+  defHttp.get({url:Api.GetUserInfoById, params})
 export const getAccountList = (params: AccountParams) =>
   defHttp.get<AccountListGetResultModel>({ url: Api.AccountList, params });
 

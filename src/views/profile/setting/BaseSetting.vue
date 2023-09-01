@@ -35,7 +35,7 @@ import { baseSetschemas } from "./data";
 import { useUserStore } from "/@/store/modules/user";
 import { uploadApi } from "/@/api/sys/upload";
 import { UserInfo } from "#/store";
-import { useGo } from "@/hooks/web/usePage";
+import { useRedo } from "@/hooks/web/usePage";
 
 export default defineComponent({
   components: {
@@ -50,7 +50,7 @@ export default defineComponent({
     const { createMessage } = useMessage();
     const userStore = useUserStore();
 
-
+     const redo =  useRedo()
     const [register, { setFieldsValue, getFieldsValue }] = useForm({
       labelWidth: 120,
       schemas: baseSetschemas,
@@ -72,6 +72,7 @@ export default defineComponent({
       }
 
     return {
+
       avatar,
       register,
       uploadApi: uploadApi as any,
@@ -81,6 +82,7 @@ export default defineComponent({
         const userInfo = getFieldsValue();
         const res = await userStore.updateUserInfo(userInfo as UserInfo);
         createMessage.success(res.message);
+        location.reload()
       }
     };
   }
