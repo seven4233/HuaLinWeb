@@ -46,12 +46,13 @@ const bank: AppRouteModule = {
     {
       path: ':id/single',
       name: 'Single',
+
       component: () => import('/@/views/bank/components/Single.vue'),
       meta: {
         title: t('routes.bank.single'),
         icon: 'ant-design:book-outlined',
         hideMenu:true,
-        ignoreKeepAlive:true
+        ignoreKeepAlive:true,
       },
     },
     {
@@ -62,6 +63,7 @@ const bank: AppRouteModule = {
         title: t('routes.bank.single'),
         icon: 'ant-design:book-outlined',
         hideMenu: true,
+        hideTab:true,
         ignoreKeepAlive: true
       }
     }
