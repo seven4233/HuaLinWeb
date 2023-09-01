@@ -54,6 +54,17 @@ const bank: AppRouteModule = {
         ignoreKeepAlive:true
       },
     },
+    {
+      path: ':id/single_submit',
+      name: 'SingleSubmit',
+      component: () => import('/@/views/bank/components/SingleSubmit.vue'),
+      meta: {
+        title: t('routes.bank.single'),
+        icon: 'ant-design:book-outlined',
+        hideMenu: true,
+        ignoreKeepAlive: true
+      }
+    }
   ],
 };
 

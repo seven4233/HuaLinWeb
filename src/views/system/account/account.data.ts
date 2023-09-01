@@ -8,6 +8,7 @@ export const columns: BasicColumn[] = [
     title: '账号',
     dataIndex: 'account',
     width: 120,
+
   },
   {
     title: '头像',

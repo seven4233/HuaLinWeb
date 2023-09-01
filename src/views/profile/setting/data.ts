@@ -1,4 +1,5 @@
 import { FormSchema } from '/@/components/Form/index';
+import { validateEmail, validatePhoneNumber } from "@/utils/validate";
 
 export interface ListItem {
   key: string;
@@ -53,7 +54,13 @@ export const baseSetschemas: FormSchema[] = [
       placeholder:'请输入邮箱'
     },
     rules:[{validator:(_, value)=>{
-
+        if(!value){
+          return Promise.resolve()
+        }
+        if(!validateEmail(value)){
+          return Promise.reject("邮箱格式不正确")
+        }
+        return Promise.resolve()
     }}],
     colProps: { span: 18 },
   },
@@ -87,6 +94,15 @@ export const baseSetschemas: FormSchema[] = [
     component: 'Input',
     label: '联系电话',
     colProps: { span: 18 },
+    rules:[{validator:(_, value)=>{
+        if(!value){
+          return Promise.resolve()
+        }
+        if(!validatePhoneNumber(value)){
+          return Promise.reject("手机号格式不正确")
+        }
+        return Promise.resolve()
+      }}],
   },
   {
     field: 'address',

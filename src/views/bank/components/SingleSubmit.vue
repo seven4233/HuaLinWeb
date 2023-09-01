@@ -2,7 +2,6 @@
 import { onMounted, ref } from "vue";
 import { useSingleStore } from "@/store/modules/singleStore";
 import { useRoute } from "vue-router";
-import { SingleOption } from "@/api/sys/model/questionModel";
 import { Modal } from "ant-design-vue";
 import { useGo } from "@/hooks/web/usePage";
 import { useQuestionStore } from "@/store/modules/questionStore";
@@ -30,61 +29,38 @@ const cardNumList = ref([
 ]);
 const currentCardIndex = ref(0);
 onMounted(() => {
-  singleStore.isSubmit = false;
+  console.log(route.params);
+  singleStore.isSubmit = true;
   // 获取单选题列表
-  singleStore.getSingleListAction(Number(route.params.id));
+  // singleStore.getSingleListAction(Number(route.params.id));
 
+  questionStore.getSortInfoAction(Number(route.params.id))
 });
 
-
-const itemClick = (item: SingleOption, index: number) => {
-  singleStore.selectedAction(item);
-  console.log(item);
-
-  // index
-};
-
-// 提交
-const handleSubmit = () => {
-  console.log(singleStore.selectedValue);
-
-  if (!singleStore.isFinished) {
-    Modal.confirm({
-      title: `你还有 ${singleStore.leftQuestion} 道未完成的题目, 确定交卷?`,
-      zIndex:99999999,
-      cancelText:'再想想',
-      onOk: async () => {
-        //   发送提交请求
-        await singleStore.addFinishedQuestion({bankId: +route.params.id, sort:'单选题', correctList: singleStore.correctList as any});
-        // TODO 跳转已提交页面
-        go(`/bank/${Number(route.params.id)}/single_submit`)
-      },
-      onCancel() {
-
-      }
-    });
-
-  } else {
-    Modal.confirm({
-        title: `小伙子我劝你检查一下?`,
-        zIndex:99999999,
-        onOk: async () => {
-          //   发送提交请求
-          await singleStore.addFinishedQuestion({bankId: +route.params.id, sort:'单选题', correctList: singleStore.correctList as any});
-          go(`/bank/${Number(route.params.id)}/single_submit`)
-        },
-        onCancel() {
-
-        }
-      });
-  }
-};
 const go = useGo()
 // 退出答题
 const exitQuestion = () => {
   go("/bank/list" );
 };
 
+// 继续答题
+const handleContinue = () => {
+  Modal.confirm({
+      title:'继续答题?',
+      okText: "继续",
+      cancelText: "再想想",
+      type: "success",
+      onOk(){
+        //     发送 获取列表请求
+        // singleStore.getSingleListAction(Number(route.params.id));
+        // location.reload();
+
+      //   页面跳转
+        go('/bank/'+Number(route.params.id)+'/single')
+      }
+    }
+  )
+};
 
 const scrollToSection = (sectionId: string) => {
   const sectionElement = document.getElementById(sectionId);
@@ -116,15 +92,15 @@ const cardNumClick = (index: number) => {
         </div>
         <div class="header-title">{{ questionStore.bankInfo?.name }}</div>
 
-        <!-- 答题卡圈圈 -->
+        <!-- 答题卡圈圈 (提交之后)-->
         <div  class="answer_card_list">
           <span style="margin-right: 10px; font-size: 14px; color: #666">答题卡</span>
           <div class="answer_card_item" v-for="(item, index) in cardNumList" :key="item.value"
                @click="cardNumClick(index)">
             <div style="margin-right: 8px; padding-top: 4px">
-              <div class="card_num empty" :class="{
+              <div class="card_num done" :class="{
                 running: index === currentCardIndex,
-                'done': singleStore.doneArr?.includes(index)
+                'error': !singleStore.doneCorrectArr?.includes(index)
               }">
                 {{ item.value }}
               </div>
@@ -132,22 +108,56 @@ const cardNumClick = (index: number) => {
           </div>
         </div>
         <div  class="header-submitter">
-          <div class="ab" @click="handleSubmit">
-            <div class="cd">交卷</div>
+          <div class="ab" @click="handleContinue">
+            <div class="cd">继续答题</div>
           </div>
         </div>
       </div>
     </div>
-    <!-- 提交之前 -->
-    <div  class="page-wrapper">
+
+
+    <!-- 提交之后 -->
+    <div  class="page-wrapper-submit" id="header">
+      <div class="submit_header">
+        <div class="result_wrap">
+          <img
+            src="https://static.nowcoder.com/fe/file/site/www-web/prod/1.0.261/imageAssets/a6b418964851ab390d5b.png"
+            alt="" />
+          <div class="text">
+            <div class="bfb">{{ singleStore.correctPercent }}</div>
+            %
+            <div class="zql">正确率</div>
+          </div>
+        </div>
+        <div class="result_wrap">
+          <img
+            src="https://static.nowcoder.com/fe/file/site/www-web/prod/1.0.261/imageAssets/8e38fce964d3009513da.png"
+            alt="" />
+          <div class="text">
+            <div class="bfb">{{ singleStore.correctCount }}</div>
+            /5
+            <div class="zql">答对题数</div>
+          </div>
+        </div>
+        <div class="result_wrap">
+          <img
+            src="https://static.nowcoder.com/fe/file/site/www-web/prod/1.0.261/imageAssets/e166664bbfe984f21775.png"
+            alt="" />
+          <div class="text">
+            <div class="bfb">{{ singleStore.doneCount }}</div>
+            /{{ singleStore.totalCount }}
+            <div class="zql">总进度</div>
+          </div>
+        </div>
+      </div>
       <template v-for="(item, index) in singleStore.singleList" :key="index">
-        <!-- 一题 -->
+        <!-- <Item :item="item" class="item" /> -->
         <div class="item" :id="index + ''">
-          <div class="title">
+          <div class="title" :class="item.answer === item.your ? 'correct' : 'error'">
             <div class="question-desc-header">
               <div class="commonClass singleClass">单选题</div>
               <div class="rightAction">
-                    <div class="collectIcon">
+                <div class="collectIcon">
                       <span>
                         <svg focusable="false" viewBox="0 0 20 20" fill="currentColor" width="20"
                              height="20"
@@ -157,7 +167,7 @@ const cardNumClick = (index: number) => {
                           </path>
                         </svg>
                       </span>
-                    </div>
+                </div>
               </div>
             </div>
 
@@ -172,21 +182,41 @@ const cardNumClick = (index: number) => {
           </div>
           <!-- 选项区 -->
           <div class="question-select">
-            <div class="option-item" :class="{ 'option-item-selected': i.selected === true }"
-                 v-for="(i, index) in item.options" :key="i.value" @click="itemClick(i, index)">
+            <div class="option-item" :class="{
+              'option-item-selected': i.value === item.answer,
+              'option-item-error': singleStore.isSubmit && i.selected && i.value !== item.answer
+            }" v-for="(i) in item.options" :key="i.value">
               <div class="label">{{ i.value }}</div>
               <div class="content">{{ i.label }}</div>
             </div>
           </div>
+
+          <!-- 答案区 -->
+          <div v-if="singleStore.isSubmit" class="answer_wrapper">
+            <div class="answer_compare">
+              <div class="correct_answer">
+                正确答案：
+                <span>{{ item.answer }}</span>
+              </div>
+              <div class="your_answer">
+                你的答案：
+                <span :class="item.answer === item.your ? 'green' : 'red'">{{
+                    item.your || "未选择"
+                  }}</span>
+              </div>
+            </div>
+            <!-- <div class="jiexi">
+              <span>官方解析： </span>
+              <span>暂无官方题目解析，去讨论看看吧！</span>
+            </div> -->
+            <div class="source">
+              <span>知识点：</span>
+              <span>{{ item.source }}</span>
+            </div>
+          </div>
         </div>
       </template>
-
-      <!-- 操作区(提交 -->
-      <div class="test-submit">
-        <a-button type="primary" @click="handleSubmit">交卷</a-button>
-      </div>
     </div>
-
   </div>
 </template>
 
@@ -346,18 +376,72 @@ const cardNumClick = (index: number) => {
     }
   }
 
-  .page-wrapper {
-    background: #fff;
-    padding: 24px 40px;
+  .page-wrapper-submit {
+    background-color: #fff;
+    background: url(https://static.nowcoder.com/fe/file/oss/1666768489804EPCLI.png) 0 0/100% auto no-repeat,
+    linear-gradient(180deg, #f9fbff, #fff 400px);
     position: relative;
     z-index: 998;
+
+    .submit_header {
+      height: 107px;
+      display: flex;
+
+      .result_wrap {
+        flex: 1 1 0%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-bottom: 16px;
+        padding-top: 29px;
+        position: relative;
+
+        &:not(:last-child)::after {
+          --tw-bg-opacity: 1;
+          background-color: rgba(220, 224, 227, var(--tw-bg-opacity));
+          content: '';
+          height: 32px;
+          position: absolute;
+          right: 0;
+          width: 1px;
+        }
+
+        img {
+          width: 50px;
+          height: 50px;
+        }
+
+        .text {
+          margin-left: 12px;
+          font-size: 14px;
+          line-height: 14px;
+          --tw-text-opacity: 1;
+          color: rgba(85, 85, 85, var(--tw-text-opacity));
+
+          .bfb {
+            display: inline-block;
+            font-size: 40px;
+            line-height: 40px;
+            --tw-text-opacity: 1;
+            color: rgba(51, 51, 51, var(--tw-text-opacity));
+            font-family: Montserrat-Medium;
+          }
+
+          .zql {
+            margin-top: 8px;
+          }
+        }
+      }
+    }
 
     .item {
       border-bottom: 1px dashed #f0f0f0;
       padding: 30px 0;
 
       // 题目
+
       .title {
+        padding: 10px 40px 0;
         margin-bottom: 20px;
 
         .question-desc-header {
@@ -427,29 +511,24 @@ const cardNumClick = (index: number) => {
         }
       }
 
+      // 正确时的背景
+      .correct {
+        background-color: #e6f6f2;
+      }
+
+      .error {
+        --tw-bg-opacity: 1;
+        background-color: rgba(255, 243, 240, var(--tw-bg-opacity));
+      }
+
       // 选项区
       .question-select {
         .option-item {
           border-radius: 8px;
           border: 1px solid transparent;
-          cursor: pointer;
           display: flex;
           margin-top: 16px;
           padding: 8px 12px;
-
-          &:not(.option-item-selected):hover {
-            --tw-bg-opacity: 1;
-            background-color: rgba(248, 248, 248, var(--tw-bg-opacity));
-
-            .label {
-              --tw-border-opacity: 1;
-              --tw-bg-opacity: 1;
-              --tw-text-opacity: 1;
-              background-color: rgba(50, 202, 153, var(--tw-bg-opacity));
-              border-color: rgba(50, 202, 153, var(--tw-border-opacity));
-              color: rgba(255, 255, 255, var(--tw-text-opacity));
-            }
-          }
 
           &:first-child {
             margin-top: 0;
@@ -505,6 +584,75 @@ const cardNumClick = (index: number) => {
           border-color: rgba(255, 187, 164, var(--tw-border-opacity));
         }
       }
+
+      // 答案区
+      .answer_wrapper {
+        margin-top: 20px;
+        padding: 20px 40px 0;
+        --tw-bg-opacity: 1;
+        --tw-text-opacity: 1;
+        background-color: rgba(248, 248, 248, var(--tw-bg-opacity));
+        border-radius: 8px;
+        color: rgba(51, 51, 51, var(--tw-text-opacity));
+        font-size: 16px;
+        line-height: 16px;
+        line-height: 27px;
+        padding: 18px 24px 20px;
+        position: relative;
+
+        &::after {
+          --tw-bg-opacity: 1;
+          background-color: rgba(85, 85, 85, var(--tw-bg-opacity));
+          border-bottom-right-radius: 4px;
+          border-top-right-radius: 4px;
+          content: '';
+          display: block;
+          height: 12px;
+          left: 0;
+          position: absolute;
+          top: 25px;
+          width: 4px;
+        }
+
+        .answer_compare {
+          margin-bottom: 16px;
+          display: flex;
+          align-items: center;
+
+          .correct_answer {
+            font-weight: 500;
+
+            span {
+              display: inline-block;
+              --tw-text-opacity: 1;
+              color: rgba(50, 202, 153, var(--tw-text-opacity));
+            }
+          }
+
+          .your_answer {
+            font-weight: 500;
+            margin-left: 20px;
+
+            span {
+              display: inline-block;
+            }
+          }
+
+          .red {
+            --tw-text-opacity: 1;
+            color: rgba(255, 86, 27, var(--tw-text-opacity));
+          }
+
+          .green {
+            --tw-text-opacity: 1;
+            color: rgba(50, 202, 153, var(--tw-text-opacity));
+          }
+        }
+
+        .jiexi {
+          margin-top: 16px;
+        }
+      }
     }
 
     .operation {
@@ -520,7 +668,6 @@ const cardNumClick = (index: number) => {
       }
     }
   }
-
 
   .test-submit {
     --tw-bg-opacity: 1;

@@ -1,9 +1,7 @@
 {
   "name": "vben-admin",
   "version": "2.10.0",
-
   "license": "MIT",
-
   "scripts": {
     "bootstrap": "pnpm install",
     "build": "cross-env NODE_ENV=production NODE_OPTIONS=--max-old-space-size=8192 pnpm vite build",
@@ -79,6 +77,7 @@
     "nprogress": "^0.2.0",
     "path-to-regexp": "^6.2.1",
     "pinia": "2.1.4",
+    "pinia-plugin-persistedstate": "^3.2.0",
     "print-js": "^1.6.0",
     "qrcode": "^1.5.3",
     "qs": "^6.11.2",

@@ -4,7 +4,7 @@
     contentBackground
     @back="goBack"
   >
-    <template #extra>
+    <template #extra v-if="hasPermission(['super'])">
       <a-button type="primary" danger> 禁用账号 </a-button>
       <a-button type="primary"> 修改密码 </a-button>
     </template>
@@ -85,8 +85,10 @@ import { useRoute, useRouter } from "vue-router";
   import Icon from "@/components/Icon/Icon.vue";
   import { tags } from "@/views/profile/center/data";
   import { useAdminStore } from "@/store/modules/adminStore";
+import { usePermission } from "@/hooks/web/usePermission";
 
   defineOptions({ name: 'AccountDetail' });
+  const {hasPermission } = usePermission()
   const ATabs = Tabs;
   const ATabPane = Tabs.TabPane;
   const prefixCls = 'account-detail'

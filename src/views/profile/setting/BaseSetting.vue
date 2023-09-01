@@ -51,7 +51,7 @@ export default defineComponent({
     const userStore = useUserStore();
 
      const redo =  useRedo()
-    const [register, { setFieldsValue, getFieldsValue }] = useForm({
+    const [register,  { setFieldsValue, validate }] = useForm({
       labelWidth: 120,
       schemas: baseSetschemas,
       showActionButtonGroup: false
@@ -79,7 +79,8 @@ export default defineComponent({
       updateAvatar,
       handleSubmit: async () => {
         // 更新用户信息的接口
-        const userInfo = getFieldsValue();
+        const userInfo = await  validate()
+
         const res = await userStore.updateUserInfo(userInfo as UserInfo);
         createMessage.success(res.message);
         location.reload()

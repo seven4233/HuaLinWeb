@@ -124,6 +124,6 @@ export const useSingleStore = defineStore(
     }
   },
   {
-    // persist: true
+    persist: true
   }
 )
