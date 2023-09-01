@@ -34,7 +34,10 @@
     <!-- action  -->
     <div :class="`${prefixCls}-action`">
 <!--      <AppSearch :class="`${prefixCls}-action__item `" v-if="getShowSearch" />-->
-
+<!--      反馈图标-->
+      <a title="反馈" target="_blank" class="feedback mr-2"  href="https://support.qq.com/product/606959" >
+        <Icon icon="pajamas:severity-unknown"></Icon>
+      </a>
       <ErrorAction v-if="getUseErrorHandle" :class="`${prefixCls}-action__item error-action`" />
 
 <!--      <Notify v-if="getShowNotice" :class="`${prefixCls}-action__item notify-item`" />-->
@@ -77,10 +80,12 @@
 
   import { createAsyncComponent } from '/@/utils/factory/createAsyncComponent';
   import { useLocale } from '/@/locales/useLocale';
+  import Icon from "@/components/Icon/Icon.vue";
 
   export default defineComponent({
     name: 'LayoutHeader',
     components: {
+      Icon,
       Header: Layout.Header,
       AppLogo,
       LayoutTrigger,

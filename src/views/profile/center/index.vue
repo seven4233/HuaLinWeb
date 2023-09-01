@@ -5,45 +5,49 @@
         <a-row>
           <a-col :span="8">
             <div :class="`${prefixCls}-top__avatar`">
-              <img alt="" width="70" :src="avatar" />
-              <span>{{ userStore.userInfo?.nickname || userStore.userInfo?.account}}</span>
-              <div>{{userStore.userInfo?.sign || "未设置"}}</div>
+              <img alt="" width="70" :src="userStore.userInfo?.avatar" />
+              <span>{{ userStore.userInfo?.nickname || userStore.userInfo?.account}}
+                    <Icon size="20" :color="userStore.userInfo?.gender === 0?'blue': userStore.userInfo?.gender === 1?'red':''"
+                          :icon="userStore.userInfo?.gender === 0?'': userStore.userInfo?.gender === 1?'man|svg':'woman|svg'" />
+                  </span>
+              <div>个性签名：{{userStore.userInfo?.sign || "未设置"}}</div>
             </div>
           </a-col>
           <a-col :span="16">
             <div :class="`${prefixCls}-top__detail`">
-<!--              电话-->
+              <p>
+                <Icon color="" icon="pajamas:severity-unknown" />
+                真实姓名：{{ userStore.userInfo?.realName || '已隐藏'}}
+              </p>
+              <!--              电话-->
               <p>
                 <Icon color="" icon="material-symbols:smartphone" />
                 电话：{{ userStore.userInfo?.phone || '未设置'}}
               </p>
               <p>
-<!--                邮箱-->
+                <!--                邮箱-->
                 <Icon color="" icon="ic:outline-mail" />
                 邮箱：{{ userStore.userInfo?.email || '未设置'}}
               </p>
+
               <p>
                 <Icon color="" icon="bx:bx-home-circle" />
                 地址： {{ userStore.userInfo?.address ||'未设置'}}
               </p>
-                <p>
-                  <Icon :color="userStore.userInfo?.gender === 0?'blue': userStore.userInfo?.gender === 1?'red':''"
-                        :icon="userStore.userInfo?.gender === 0?'mdi:face-man-shimmer-outline': userStore.userInfo?.gender === 1?'mdi:face-woman-shimmer-outline':'pajamas:severity-unknown'" />
-                  性别：{{ userStore.userInfo?.gender === 0?'男': userStore.userInfo?.gender === 1?'女':'保密'}}
-                </p>
+
             </div>
           </a-col>
         </a-row>
       </a-col>
-      <a-col :span="7" :class="`${prefixCls}-col`">
-        <CollapseContainer title="标签" :canExpan="false">
-          <template v-for="tag in tags" :key="tag">
-            <Tag class="mb-2" >
-              {{ tag }}
-            </Tag>
-          </template>
-        </CollapseContainer>
-      </a-col>
+<!--      <a-col :span="7" :class="`${prefixCls}-col`">-->
+<!--        <CollapseContainer title="标签" :canExpan="false">-->
+<!--          <template v-for="tag in tags" :key="tag">-->
+<!--            <Tag class="mb-2" >-->
+<!--              {{ tag }}-->
+<!--            </Tag>-->
+<!--          </template>-->
+<!--        </CollapseContainer>-->
+<!--      </a-col>-->
       <a-col :span="8" :class="`${prefixCls}-col`">
         <a-button @click="editClick"  type="primary">  <Icon  icon='material-symbols:edit-square-outline-rounded' />编辑资料</a-button>
       </a-col>
