@@ -29,7 +29,8 @@ interface UserState {
   lastUpdateTime: number;
 }
 
-export const useUserStore = defineStore({
+export const useUserStore = defineStore(
+  {
   id: 'app-user',
   state: (): UserState => ({
     // user info
@@ -42,7 +43,7 @@ export const useUserStore = defineStore({
     sessionTimeout: false,
     // Last fetch time
     lastUpdateTime: 0,
-  }),
+  }), persist: true,
   getters: {
     getUserInfo(state): UserInfo {
       return state.userInfo || getAuthCache<UserInfo>(USER_INFO_KEY) || {};
@@ -192,7 +193,8 @@ export const useUserStore = defineStore({
 
     }
   },
-});
+},
+);
 
 // Need to be used outside the setup
 export function useUserStoreWithOut() {

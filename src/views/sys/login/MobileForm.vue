@@ -70,8 +70,13 @@
        return false
     }
     let res = await sendCodeAPI({mobile: formData.mobile,mode:'login' })
-    console.log(res);
-    return true
+    if(res.code === 0 ){
+      createMessage.success(res.message)
+      return true
+    }else {
+      createMessage.error(res.message)
+      return false
+    }
   }
   async function handleLogin() {
     const data = await validForm();

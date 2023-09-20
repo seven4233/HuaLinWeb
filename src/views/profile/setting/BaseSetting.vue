@@ -35,7 +35,6 @@ import { baseSetschemas } from "./data";
 import { useUserStore } from "/@/store/modules/user";
 import { uploadApi } from "/@/api/sys/upload";
 import { UserInfo } from "#/store";
-import { useRedo } from "@/hooks/web/usePage";
 
 export default defineComponent({
   components: {
@@ -50,7 +49,7 @@ export default defineComponent({
     const { createMessage } = useMessage();
     const userStore = useUserStore();
 
-     const redo =  useRedo()
+     // const redo =  useRedo()
     const [register,  { setFieldsValue, validate }] = useForm({
       labelWidth: 120,
       schemas: baseSetschemas,
