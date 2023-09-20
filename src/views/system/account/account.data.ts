@@ -45,8 +45,12 @@ export const columns: BasicColumn[] = [
         return '管理员'
       }else if(text ==='super'){
         return '超级管理员'
-      }else{
+      }else if(text ==='tester'){
+        return '测试员'
+      }else if(text ==='user'){
         return '普通用户'
+      }else {
+        return "未知"
       }
     }
 

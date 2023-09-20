@@ -158,6 +158,7 @@ export class VAxios {
         // @ts-ignore
         ignoreCancelToken: true,
       },
+
     });
   }
 

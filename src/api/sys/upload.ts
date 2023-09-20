@@ -14,6 +14,7 @@ export function uploadApi(
 ) {
   return defHttp.uploadFile<UploadApiResult>(
     {
+      baseURL:"http://111.230.25.143:3001",
       url: uploadUrl,
       onUploadProgress,
     },
