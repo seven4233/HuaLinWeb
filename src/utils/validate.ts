@@ -11,3 +11,8 @@
    let regex = /^(?=.*[a-z])(?=.*\d)[a-zA-Z\d!@#$%^&*]{6,20}$/;
    return regex.test(password);
  }
+
+ export function validateEmail(password:string) {
+   let regex = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;
+   return regex.test(password);
+ }
