@@ -5,6 +5,7 @@ import SvgIcon from "@/components/Icon/src/SvgIcon.vue";
 import {Progress} from "ant-design-vue";
 import { AccountListItem } from "@/api/sys/model/systemModel";
 import { useGo } from "@/hooks/web/usePage";
+import Icon from "@/components/Icon/Icon.vue";
 const go = useGo()
 const adminStore = useAdminStore()
 onMounted(()=>{
@@ -30,8 +31,11 @@ const itemClick = (account:AccountListItem)=>{
             <img alt="" :src="item.avatar">
           </div>
           <div class="list_info">
+<!--            昵称-->
             <p class="list_name">{{ item.nickname }}
+              <!--              性别-->
               <span v-if="item.gender!==0" id="h-gender" class="icon gender" :class="{'female':item.gender===2, 'male':item.gender===1}"></span>
+              <Icon v-else color="#666" style="margin: 0 3px;" icon="pajamas:severity-unknown" />
               <svg-icon :name="`lv_${item.levelInfo?.level}`" :size="item.levelInfo?.level===1?28:38" class="ml-2" :class="{'mr-3':item.levelInfo?.level===1}"/>
               <span  class="duan"
               :style="{backgroundColor:item.levelInfo?.bgColor, color:'#fff'}">{{ item.levelInfo?.name }}</span>
