@@ -81,8 +81,8 @@ export default defineComponent({
         const userInfo = await  validate()
 
         const res = await userStore.updateUserInfo(userInfo as UserInfo);
+        await userStore.getUserInfoAction()
         createMessage.success(res.message);
-        location.reload()
       }
     };
   }
