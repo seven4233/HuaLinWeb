@@ -23,7 +23,7 @@
 
       <FormItem class="enter-x">
         <Button type="primary" size="large" block @click="handleLogin" :loading="loading">
-          {{ t('sys.login.loginButton') }}
+          {{ "登录 / 注册" }}
         </Button>
         <Button size="large" block class="mt-4" @click="handleBackLogin">
           {{ t('sys.login.backSignIn') }}
