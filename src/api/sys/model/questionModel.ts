@@ -40,11 +40,28 @@ export type SingleItem = {
   question_index: number;
   your?:string;
 }
+export type JudgeItem = {
+  question_num: string
+  type: string
+  name: string
+  source: string
+  source_dic:string;
+  answer: string
+  options: SingleOption[],
+  question_index: number;
+  your?:string;
+}
+
 
 export type SingleListReturnType = {
   doneCount: number;
   totalCount: number;
   list: SingleItem[]
+}
+export type JudgeListReturnType = {
+  doneCount: number;
+  totalCount: number;
+  list: JudgeItem[]
 }
 
 export type UserInfo = {

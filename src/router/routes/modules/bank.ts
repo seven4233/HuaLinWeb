@@ -66,7 +66,31 @@ const bank: AppRouteModule = {
         hideTab:true,
         ignoreKeepAlive: true
       }
-    }
+    },
+
+    {
+      path: ':id/judge',
+      name: 'Judge',
+      component: () => import('/@/views/bank/components/Judge.vue'),
+      meta: {
+        title: "判断题",
+        icon: 'ant-design:book-outlined',
+        hideMenu:true,
+        ignoreKeepAlive:true,
+      },
+    },
+    {
+      path: ':id/judge_submit',
+      name: 'JudgeSubmit',
+      component: () => import('/@/views/bank/components/JudgeSubmit.vue'),
+      meta: {
+        title: "判断题",
+        icon: 'ant-design:book-outlined',
+        hideMenu: true,
+        hideTab:true,
+        ignoreKeepAlive: true
+      }
+    },
   ],
 };
 
