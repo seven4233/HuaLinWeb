@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import {Card} from 'ant-design-vue'
+import {Card, Tag} from 'ant-design-vue'
 import { useQuestionStore } from "@/store/modules/questionStore";
 import { useGo } from "@/hooks/web/usePage";
 import { onMounted } from "vue";
@@ -27,7 +27,9 @@ const itemClick = (item: any) => {
 
           <div class="sort_item" @click="itemClick(item)" v-for="item in questionStore.sortArr" :key="item.type">
             <div class="sort_name">
-              <div class="title">{{ item.type }}</div>
+              <div class="title">{{ item.type }}
+                <Tag v-if="item.type==='判断题'" color="#cd201f" style="transform: scale(0.7)" >new</Tag>
+              </div>
             </div>
             <div class="sort_num">
               已做
@@ -86,12 +88,24 @@ const itemClick = (item: any) => {
             margin-bottom: 8px;
             display: flex;
             align-items: center;
+            position: relative;
+
 
             .title {
               max-width: 154px;
               overflow: hidden;
               text-overflow: ellipsis;
               white-space: nowrap;
+              .new{
+                color: red;
+                font-size: 12px;
+                border: 1px solid red;
+                border-radius: 10px;
+                padding: 0 2px;
+                top: -3px;
+                left: 5px;
+                position: absolute;
+              }
             }
           }
 

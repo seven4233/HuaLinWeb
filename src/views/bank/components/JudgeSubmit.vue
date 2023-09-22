@@ -154,7 +154,7 @@ const cardNumClick = (index: number) => {
         <div class="item" :id="index + ''">
           <div class="title" :class="item.answer === item.your ? 'correct' : 'error'">
             <div class="question-desc-header">
-              <div class="commonClass singleClass">单选题</div>
+              <div class="commonClass singleClass">判断题</div>
               <div class="rightAction">
                 <div class="collectIcon">
                       <span>
@@ -185,8 +185,8 @@ const cardNumClick = (index: number) => {
               'option-item-selected': i.value === item.answer,
               'option-item-error': judgeStore.isSubmit && i.selected && i.value !== item.answer
             }" v-for="(i) in item.options" :key="i.value">
-              <div class="label">{{ i.label }}</div>
-              <div class="content">{{ i.value }}</div>
+              <div class="label">{{ i.value }}</div>
+              <div class="content">{{ i.label }}</div>
             </div>
           </div>
 

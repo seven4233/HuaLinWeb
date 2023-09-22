@@ -9,79 +9,61 @@
         </span>
       </div>
     </template>
-    <Description @register="infoRegister" class="enter-y" />
-    <Description @register="register" class="my-4 enter-y" />
-    <Description @register="registerDev" class="enter-y" />
+    <Card title="通知公告" style="width: 500px" >
+      <template #extra><a href="#">更多</a></template>
+      <div class="item">
+          <span class="news-type type-gonggao">公告</span>
+          <span class="news-title">新增判断题页面和更换头像功能</span>
+          <em class="fr news-time">09/21</em>
+      </div>
+
+    </Card>
   </PageWrapper>
 </template>
 <script lang="ts" setup>
-  import { h } from 'vue';
-  import { Tag } from 'ant-design-vue';
   import { PageWrapper } from '/@/components/Page';
-  import { Description, DescItem, useDescription } from '/@/components/Description/index';
   import { GITHUB_URL } from '/@/settings/siteSetting';
+  import {Card} from 'ant-design-vue'
 
-  const { pkg, lastBuildTime } = __APP_INFO__;
-
-  const { dependencies, devDependencies, version } = pkg;
-
-  const schema: DescItem[] = [];
-  const devSchema: DescItem[] = [];
-
-  const commonTagRender = (color: string) => (curVal) => h(Tag, { color }, () => curVal);
-  const commonLinkRender = (text: string) => (href) => h('a', { href, target: '_blank' }, text);
-
-  const infoSchema: DescItem[] = [
-    {
-      label: '版本',
-      field: 'version',
-      render: commonTagRender('blue'),
-    },
-    {
-      label: '最后编译时间',
-      field: 'lastBuildTime',
-      render: commonTagRender('blue'),
-    },
-
-    {
-      label: 'Github',
-      field: 'github',
-      render: commonLinkRender('Github'),
-    },
-  ];
-
-  const infoData = {
-    version,
-    lastBuildTime,
-    github: GITHUB_URL,
-  };
-
-  Object.keys(dependencies).forEach((key) => {
-    schema.push({ field: key, label: key });
-  });
-
-  Object.keys(devDependencies).forEach((key) => {
-    devSchema.push({ field: key, label: key });
-  });
-
-  const [register] = useDescription({
-    title: '生产环境依赖',
-    data: dependencies,
-    schema: schema,
-    column: 3,
-  });
-
-  const [registerDev] = useDescription({
-    title: '开发环境依赖',
-    data: devDependencies,
-    schema: devSchema,
-    column: 3,
-  });
-
-  const [infoRegister] = useDescription({
-    title: '项目信息',
-    data: infoData,
-    schema: infoSchema,
-    column: 2,
-  });
 </script>
+
+<style lang="less" scoped>
+
+.item{
+  width: 500px;
+  margin-bottom: 11px;
+  color: #666;
+  font-size: 14px;
+  display: flex;
+  cursor: pointer;
+  .news-type{
+    color: #ff3636;
+    margin-right: 5px;
+    font-size: 12px;
+    display: inline-block;
+    line-height: 16px;
+    border: 1px solid currentColor;
+    vertical-align: top;
+    margin-top: 2px;
+    width: 32px;
+    text-align: center;
+    border-radius: 2px;
+  }
+
+  .news-title{
+    width: 230px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: top;
+  }
+  .news-time{
+    flex: 1;
+    text-align: right;
+    margin-right: 50px;
+    color: #999;
+    font-style: normal;
+  }
+}
+</style>

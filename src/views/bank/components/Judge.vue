@@ -174,8 +174,8 @@ const cardNumClick = (index: number) => {
           <div class="question-select">
             <div class="option-item" :class="{ 'option-item-selected': i.selected === true }"
                  v-for="(i, index) in item.options" :key="i.value" @click="itemClick(i, index)">
-              <div class="label">{{ i.label }}</div>
-              <div class="content">{{ i.value}}</div>
+              <div class="label">{{ i.value }}</div>
+              <div class="content">{{ i.label}}</div>
             </div>
           </div>
         </div>

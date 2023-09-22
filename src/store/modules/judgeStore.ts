@@ -5,7 +5,7 @@ import {
   SingleOption,
   SubmitQuestionParams
 } from "@/api/sys/model/questionModel";
-import { getJudgeListAPI, getSingleListAPI, submitQuestionAPI} from "@/api/sys/question";
+import { getJudgeListAPI, submitQuestionAPI} from "@/api/sys/question";
 
 
 export const useJudgeStore = defineStore(

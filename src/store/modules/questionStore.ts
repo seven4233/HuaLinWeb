@@ -43,6 +43,12 @@ export const useQuestionStore = defineStore('question', ()=>{
                 doneCount: singleDoneCount.value,
                 value:'single'
             },
+          {
+            type: '判断题',
+            count: judgeCount.value,
+            doneCount: judgeDoneCount.value,
+            value:'judge'
+          },
             {
                 type: '多选题',
                 count: multipleCount.value,
@@ -55,12 +61,7 @@ export const useQuestionStore = defineStore('question', ()=>{
                 doneCount: blankDoneCount.value,
                 value:'blank'
             },
-            {
-                type: '判断题',
-                count: judgeCount.value,
-                doneCount: judgeDoneCount.value,
-                value:'judge'
-            },
+
         ]
     })
 
