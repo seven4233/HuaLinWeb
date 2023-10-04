@@ -41,9 +41,8 @@ export const baseSetschemas: FormSchema[] = [
     component: 'Input',
     label: '真实姓名',
     componentProps:{
-      placeholder:'请输入真实姓名'
+      placeholder:'请输入真实姓名',
     },
-
     colProps: { span: 18 },
   },
   {
@@ -92,6 +91,9 @@ export const baseSetschemas: FormSchema[] = [
   {
     field: 'phone',
     component: 'Input',
+    componentProps:{
+      disabled:true
+    },
     label: '联系电话',
     colProps: { span: 18 },
     rules:[{validator:(_, value)=>{

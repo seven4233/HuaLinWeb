@@ -22,9 +22,7 @@ const itemClick = (item: any) => {
 <template>
   <div class="question_sort">
       <Card class="card">
-
         <div class="sort_list">
-
           <div class="sort_item" @click="itemClick(item)" v-for="item in questionStore.sortArr" :key="item.type">
             <div class="sort_name">
               <div class="title">{{ item.type }}

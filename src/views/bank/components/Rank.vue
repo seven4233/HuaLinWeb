@@ -81,7 +81,7 @@ const itemClick = (account:AccountListItem)=>{
     padding-bottom: 4px;
     .list_item{
       background: #fff;
-      width: 50%;
+      width: 700px;
       display: flex;
       align-items: center;
       box-sizing: border-box;

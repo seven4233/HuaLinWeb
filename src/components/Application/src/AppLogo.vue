@@ -4,9 +4,10 @@
 -->
 <template>
   <div class="anticon" :class="getAppLogoClass" @click="goHome">
-    <img src="../../../assets/images/logo.png" />
-    <div class="ml-2 truncate md:opacity-100" :class="getTitleClass" v-show="showTitle">
-      {{ title }}
+    <img v-show="showTitle" src="../../../assets/images/logo.png" style="width: 140px" />
+    <div class="ml-2 truncate md:opacity-100" :class="getTitleClass" v-show="!showTitle">
+      <img src="/favicon.ico" alt="" style="transform: scale(0.8);" />
+
     </div>
   </div>
 </template>

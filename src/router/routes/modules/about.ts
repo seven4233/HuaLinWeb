@@ -9,7 +9,7 @@ const about: AppRouteModule = {
   redirect: '/about/index',
   meta: {
     hideChildrenInMenu: true,
-    icon: 'simple-icons:about-dot-me',
+    icon: 'ion:grid-outline',
     title: "首页",
     orderNo: 1,
   },
