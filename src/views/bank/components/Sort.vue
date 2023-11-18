@@ -26,7 +26,8 @@ const itemClick = (item: any) => {
           <div class="sort_item" @click="itemClick(item)" v-for="item in questionStore.sortArr" :key="item.type">
             <div class="sort_name">
               <div class="title">{{ item.type }}
-                <Tag v-if="item.type==='判断题'" color="#cd201f" style="transform: scale(0.7)" >new</Tag>
+                <!-- <Tag v-if="item.type==='判断题'" color="#cd201f" style="transform: scale(0.7)" >new</Tag> -->
+                <Tag v-if="item.type!=='填空题' && bankId=== '2'" color="#cd201f" style="transform: scale(0.7)" >new</Tag>
               </div>
             </div>
             <div class="sort_num">
@@ -47,46 +48,45 @@ const itemClick = (item: any) => {
       height: 80vh;
 
       .sort_list {
-        margin-right: -20px;
-        margin-bottom: -20px;
         display: flex;
         flex-wrap: wrap;
+        margin-right: -20px;
+        margin-bottom: -20px;
 
         .sort_item {
-          margin-bottom: 20px;
-          margin-right: 20px;
           width: 202px;
           height: 80px;
-          cursor: pointer;
-          border-radius: 12px;
-          border-width: 1px;
-          border-color: transparent;
-          background-color: rgba(248, 248, 248, 1);
+          margin-right: 20px;
+          margin-bottom: 20px;
           padding: 12px 16px 14px;
+          transition: all 0.2s ease;
+          border-width: 1px;
+          border-radius: 12px;
+          border-color: transparent;
+          background-color: rgb(248 248 248 / 100%);
+          color: rgb(51 51 51 / 100%);
           font-size: 14px;
           line-height: 21px;
-          color: rgba(51, 51, 51, 1);
-          transition: all 0.2s ease;
+          cursor: pointer;
 
           &:hover {
-
-            color: rgba(50, 202, 153, 1);
-            transform: translateY(-4px);
-            background: #fff;
             --tw-ring-offset-shadow: 0 0 #0000;
             --tw-ring-shadow: 0 0 #0000;
-            --tw-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.02), 0 2px 12px 0 rgba(0, 0, 0, 0.04),
-            0 2px 6px 0 rgba(0, 0, 0, 0.02);
+            --tw-shadow: 0 1px 4px 0 rgb(0 0 0 / 2%), 0 2px 12px 0 rgb(0 0 0 / 4%),
+            0 2px 6px 0 rgb(0 0 0 / 2%);
 
+            transform: translateY(-4px);
+            background: #fff;
             box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000),
             var(--tw-shadow);
+            color: rgb(50 202 153 / 100%);
           }
 
           .sort_name {
-            margin-bottom: 8px;
             display: flex;
-            align-items: center;
             position: relative;
+            align-items: center;
+            margin-bottom: 8px;
 
 
             .title {
@@ -94,24 +94,25 @@ const itemClick = (item: any) => {
               overflow: hidden;
               text-overflow: ellipsis;
               white-space: nowrap;
+
               .new{
-                color: red;
-                font-size: 12px;
-                border: 1px solid red;
-                border-radius: 10px;
-                padding: 0 2px;
+                position: absolute;
                 top: -3px;
                 left: 5px;
-                position: absolute;
+                padding: 0 2px;
+                border: 1px solid red;
+                border-radius: 10px;
+                color: red;
+                font-size: 12px;
               }
             }
           }
 
           .sort_num {
-            color: rgba(187, 187, 187, 1);
+            color: rgb(187 187 187 / 100%);
 
             span {
-              color: rgba(50, 202, 153, 1);
+              color: rgb(50 202 153 / 100%);
             }
 
           }

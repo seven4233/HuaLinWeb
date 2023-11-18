@@ -94,7 +94,7 @@ const cardNumClick = (index: number) => {
 
         <!-- 答题卡圈圈 (提交之后)-->
         <div  class="answer_card_list">
-          <span style="margin-right: 10px; font-size: 14px; color: #666">答题卡</span>
+          <span style="margin-right: 10px; color: #666; font-size: 14px">答题卡</span>
           <div class="answer_card_item" v-for="(item, index) in cardNumList" :key="item.value"
                @click="cardNumClick(index)">
             <div style="margin-right: 8px; padding-top: 4px">
@@ -223,153 +223,158 @@ const cardNumClick = (index: number) => {
 <style lang="less" scoped>
 .single {
   .header {
-    height: 56px;
     --tw-bg-opacity: 1;
-    background-color: rgba(255, 255, 255, var(--tw-bg-opacity));
+
     position: sticky;
-    top: 0px;
-    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.02),
-    0 2px 12px 0 rgba(0, 0, 0, 0.04);
     z-index: 999;
+    top: 0;
+    height: 56px;
+    background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+    box-shadow: 0 1px 4px 0 rgb(0 0 0 / 2%),
+    0 2px 12px 0 rgb(0 0 0 / 4%);
 
     .header-content {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      margin-left: auto;
-      margin-right: auto;
+      justify-content: space-between;
       height: 56px;
+      margin-right: auto;
+      margin-left: auto;
       padding: 0 20px;
 
       .customer-exit {
         --tw-text-opacity: 1;
-        color: rgba(85, 85, 85, var(--tw-text-opacity));
-        font-weight: 400;
-        font-size: 16px;
-        line-height: 16px;
-        cursor: pointer;
+
         display: flex;
         align-items: center;
+        color: rgb(85 85 85 / var(--tw-text-opacity));
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 16px;
+        cursor: pointer;
 
         &:hover {
-          color: rgba(50, 202, 153, 1);
+          color: rgb(50 202 153 / 100%);
         }
 
         .ncicon {
+          --tw-transform: translateX(0) translateY(0) rotate(180deg) skewX(0) skewY(0) scaleX(1) scaleY(1);
+
+          display: inline-block;
+          transform: var(--tw-transform);
           -webkit-font-smoothing: antialiased;
           -moz-osx-font-smoothing: grayscale;
-          display: inline-block;
           font-style: normal;
           line-height: 0;
           text-align: center;
-          text-rendering: optimizeLegibility;
+          text-rendering: optimizelegibility;
           text-transform: none;
           vertical-align: -0.15em;
-          --tw-transform: translateX(0) translateY(0) rotate(180deg) skewX(0) skewY(0) scaleX(1) scaleY(1);
-          transform: var(--tw-transform);
         }
       }
 
       .header-title {
         --tw-text-opacity: 1;
-        color: rgba(85, 85, 85, var(--tw-text-opacity));
-        line-height: 18px;
-        font-weight: 400;
-        font-size: 16px;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
+
         max-width: 500px;
+        overflow: hidden;
+        color: rgb(85 85 85 / var(--tw-text-opacity));
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 18px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
 
       // 答题卡圈圈
       .answer_card_list {
         display: flex;
-        align-items: center;
         flex-wrap: wrap;
+        align-items: center;
 
         .answer_card_item {
           position: relative;
 
           .card_num {
-            align-items: center;
-            border-radius: 100%;
-            border-width: 1px;
-            cursor: pointer;
             display: flex;
+            position: relative;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            border-width: 1px;
+            border-radius: 100%;
             font-size: 14px;
             font-weight: 400;
-            height: 30px;
-            justify-content: center;
             line-height: 16px;
-            position: relative;
-            width: 30px;
+            cursor: pointer;
 
             &:hover {
-              background-color: rgba(50, 202, 153, 1);
-              border: 1px solid rgba(50, 202, 153, 1);
+              border: 1px solid rgb(50 202 153 / 100%);
               border-style: none;
-              color: rgba(255, 255, 255, 1);
+              background-color: rgb(50 202 153 / 100%);
+              color: rgb(255 255 255 / 100%);
             }
           }
 
           .empty {
-            border: 1px solid rgba(240, 240, 240, 1);
-            color: rgba(153, 153, 153, 1);
+            border: 1px solid rgb(240 240 240 / 100%);
+            color: rgb(153 153 153 / 100%);
           }
 
           .running {
-            border: 1px solid rgba(240, 240, 240, 1);
-            border-color: rgba(50, 202, 153, 1);
+            border: 1px solid rgb(240 240 240 / 100%);
+            border-color: rgb(50 202 153 / 100%);
           }
 
           .done {
-            border: 1px solid rgba(148, 227, 201, 1);
-            background-color: rgba(238, 250, 247, 1);
-            color: rgba(50, 202, 153, 1);
+            border: 1px solid rgb(148 227 201 / 100%);
+            background-color: rgb(238 250 247 / 100%);
+            color: rgb(50 202 153 / 100%);
           }
 
           .error {
-            border: 1px solid rgba(255, 154, 118, 1);
-            background-color: rgba(255, 246, 243, 1);
-            color: rgba(255, 86, 27, 1);
+            border: 1px solid rgb(255 154 118 / 100%);
+            background-color: rgb(255 246 243 / 100%);
+            color: rgb(255 86 27 / 100%);
           }
         }
       }
 
       .header-submitter {
+        --tw-text-opacity: 1;
+
         display: flex;
         align-items: center;
+        color: rgb(153 153 153 / var(--tw-text-opacity));
         font-size: 16px;
-        line-height: 16px;
         font-weight: 500;
-        --tw-text-opacity: 1;
-        color: rgba(153, 153, 153, var(--tw-text-opacity));
+        line-height: 16px;
 
         .ab {
-          margin-right: 16px;
           display: flex;
-          height: 32px;
-          cursor: pointer;
           align-items: center;
           justify-content: center;
-          border-radius: 20px;
-          border: 1px solid rgba(50, 202, 153, 1);
-          padding-left: 12px;
+          height: 32px;
+          margin-right: 16px;
           padding-right: 12px;
-          color: rgba(50, 202, 153, 1);
+          padding-left: 12px;
+          border: 1px solid rgb(50 202 153 / 100%);
+          border-radius: 20px;
+          color: rgb(50 202 153 / 100%);
+          cursor: pointer;
 
           &:hover {
-            color: rgba(255, 255, 255, 1);
-            background-color: rgba(50, 202, 153, 1);
+            background-color: rgb(50 202 153 / 100%);
+            color: rgb(255 255 255 / 100%);
           }
 
           .cd {
             width: 68px;
-            text-align: center;
             font-size: 16px;
-            line-height: 16px;
             font-weight: 400;
+            line-height: 16px;
+            text-align: center;
           }
         }
       }
@@ -377,33 +382,34 @@ const cardNumClick = (index: number) => {
   }
 
   .page-wrapper-submit {
-    background-color: #fff;
-    background: url(https://static.nowcoder.com/fe/file/oss/1666768489804EPCLI.png) 0 0/100% auto no-repeat,
-    linear-gradient(180deg, #f9fbff, #fff 400px);
     position: relative;
     z-index: 998;
+    background: url("https://static.nowcoder.com/fe/file/oss/1666768489804EPCLI.png") 0 0/100% auto no-repeat,
+    linear-gradient(180deg, #f9fbff, #fff 400px);
+    background-color: #fff;
 
     .submit_header {
-      height: 107px;
       display: flex;
+      height: 107px;
 
       .result_wrap {
-        flex: 1 1 0%;
         display: flex;
+        position: relative;
+        flex: 1 1 0%;
         align-items: center;
         justify-content: center;
-        padding-bottom: 16px;
         padding-top: 29px;
-        position: relative;
+        padding-bottom: 16px;
 
         &:not(:last-child)::after {
           --tw-bg-opacity: 1;
-          background-color: rgba(220, 224, 227, var(--tw-bg-opacity));
+
           content: '';
-          height: 32px;
           position: absolute;
           right: 0;
           width: 1px;
+          height: 32px;
+          background-color: rgb(220 224 227 / var(--tw-bg-opacity));
         }
 
         img {
@@ -412,19 +418,21 @@ const cardNumClick = (index: number) => {
         }
 
         .text {
+          --tw-text-opacity: 1;
+
           margin-left: 12px;
+          color: rgb(85 85 85 / var(--tw-text-opacity));
           font-size: 14px;
           line-height: 14px;
-          --tw-text-opacity: 1;
-          color: rgba(85, 85, 85, var(--tw-text-opacity));
 
           .bfb {
+            --tw-text-opacity: 1;
+
             display: inline-block;
+            color: rgb(51 51 51 / var(--tw-text-opacity));
+            font-family: Montserrat-Medium;
             font-size: 40px;
             line-height: 40px;
-            --tw-text-opacity: 1;
-            color: rgba(51, 51, 51, var(--tw-text-opacity));
-            font-family: Montserrat-Medium;
           }
 
           .zql {
@@ -435,45 +443,48 @@ const cardNumClick = (index: number) => {
     }
 
     .item {
-      border-bottom: 1px dashed #f0f0f0;
       padding: 30px 0;
+      border-bottom: 1px dashed #f0f0f0;
 
       // 题目
 
       .title {
-        padding: 10px 40px 0;
         margin-bottom: 20px;
+        padding: 10px 40px 0;
 
         .question-desc-header {
           display: flex;
-          justify-content: space-between;
           align-items: center;
+          justify-content: space-between;
           margin-bottom: 12px;
 
           .commonClass {
+            padding: 4px 8px;
             border-radius: 4px;
             font-size: 14px;
             font-weight: 400;
             line-height: 14px;
-            padding: 4px 8px;
           }
 
           .singleClass {
             --tw-bg-opacity: 1;
             --tw-text-opacity: 1;
-            background-color: rgba(227, 243, 255, var(--tw-bg-opacity));
-            color: rgba(0, 117, 255, var(--tw-text-opacity));
+
+            background-color: rgb(227 243 255 / var(--tw-bg-opacity));
+            color: rgb(0 117 255 / var(--tw-text-opacity));
           }
 
           .rightAction {
             .collectIcon {
               --tw-text-opacity: 1;
-              color: rgba(153, 153, 153, var(--tw-text-opacity));
+
+              color: rgb(153 153 153 / var(--tw-text-opacity));
               cursor: pointer;
 
               &:hover {
                 --tw-text-opacity: 1;
-                color: rgba(255, 187, 77, var(--tw-text-opacity));
+
+                color: rgb(255 187 77 / var(--tw-text-opacity));
               }
             }
           }
@@ -481,32 +492,33 @@ const cardNumClick = (index: number) => {
 
         .question-info {
           --tw-text-opacity: 1;
-          color: rgba(51, 51, 51, var(--tw-text-opacity));
-          line-height: 28px;
-          font-weight: 600;
-          font-size: 16px;
+
           display: flex;
+          color: rgb(51 51 51 / var(--tw-text-opacity));
+          font-size: 16px;
+          font-weight: 600;
+          line-height: 28px;
 
           .question-num {
-            margin-right: 4px;
             height: 28px;
+            margin-right: 4px;
             line-height: 28px;
 
             em {
-              font-style: normal;
-              border-radius: 99%;
               padding: 0 5px;
               border: 1px solid #32ca99;
+              border-radius: 99%;
               background-color: #fff;
+              font-style: normal;
             }
           }
 
           .question-name {
-            word-wrap: break-word;
-            line-height: 28px;
-            word-break: break-all;
             flex: 1 1 0%;
             width: 0;
+            line-height: 28px;
+            word-wrap: break-word;
+            word-break: break-all;
           }
         }
       }
@@ -518,17 +530,18 @@ const cardNumClick = (index: number) => {
 
       .error {
         --tw-bg-opacity: 1;
-        background-color: rgba(255, 243, 240, var(--tw-bg-opacity));
+
+        background-color: rgb(255 243 240 / var(--tw-bg-opacity));
       }
 
       // 选项区
       .question-select {
         .option-item {
-          border-radius: 8px;
-          border: 1px solid transparent;
           display: flex;
           margin-top: 16px;
           padding: 8px 12px;
+          border: 1px solid transparent;
+          border-radius: 8px;
 
           &:first-child {
             margin-top: 0;
@@ -536,26 +549,27 @@ const cardNumClick = (index: number) => {
 
           .label {
             --tw-border-opacity: 1;
-            align-items: center;
-            border-radius: 9999px;
-            border: 1px solid;
-            border-color: rgba(221, 221, 221, var(--tw-border-opacity));
 
             display: flex;
             flex-shrink: 0;
-            height: 28px;
+            align-items: center;
             justify-content: center;
-            margin-right: 8px;
-            white-space: pre-wrap;
             width: 28px;
+            height: 28px;
+            margin-right: 8px;
+            border: 1px solid;
+            border-radius: 9999px;
+            border-color: rgb(221 221 221 / var(--tw-border-opacity));
+            white-space: pre-wrap;
           }
 
           .content {
             --tw-text-opacity: 1;
-            align-items: center;
-            color: rgba(51, 51, 51, var(--tw-text-opacity));
+
             display: flex;
             flex: 1 1 0%;
+            align-items: center;
+            color: rgb(51 51 51 / var(--tw-text-opacity));
             font-size: 16px;
             line-height: 24px;
           }
@@ -564,74 +578,79 @@ const cardNumClick = (index: number) => {
         .option-item-selected {
           --tw-border-opacity: 1;
           --tw-bg-opacity: 1;
-          background-color: rgba(238, 250, 247, var(--tw-bg-opacity));
-          border: 1px solid rgba(148, 227, 201, var(--tw-border-opacity));
+
+          border: 1px solid rgb(148 227 201 / var(--tw-border-opacity));
+          background-color: rgb(238 250 247 / var(--tw-bg-opacity));
 
           .label {
             --tw-border-opacity: 1;
             --tw-bg-opacity: 1;
             --tw-text-opacity: 1;
-            background-color: rgba(50, 202, 153, var(--tw-bg-opacity));
-            border-color: rgba(50, 202, 153, var(--tw-border-opacity));
-            color: rgba(255, 255, 255, var(--tw-text-opacity));
+
+            border-color: rgb(50 202 153 / var(--tw-border-opacity));
+            background-color: rgb(50 202 153 / var(--tw-bg-opacity));
+            color: rgb(255 255 255 / var(--tw-text-opacity));
           }
         }
 
         .option-item-error {
           --tw-border-opacity: 1;
           --tw-bg-opacity: 1;
-          background-color: rgba(255, 246, 243, var(--tw-bg-opacity));
-          border-color: rgba(255, 187, 164, var(--tw-border-opacity));
+
+          border-color: rgb(255 187 164 / var(--tw-border-opacity));
+          background-color: rgb(255 246 243 / var(--tw-bg-opacity));
         }
       }
 
       // 答案区
       .answer_wrapper {
-        margin-top: 20px;
-        padding: 20px 40px 0;
         --tw-bg-opacity: 1;
         --tw-text-opacity: 1;
-        background-color: rgba(248, 248, 248, var(--tw-bg-opacity));
-        border-radius: 8px;
-        color: rgba(51, 51, 51, var(--tw-text-opacity));
-        font-size: 16px;
-        line-height: 16px;
-        line-height: 27px;
-        padding: 18px 24px 20px;
+
         position: relative;
+        margin-top: 20px;
+        padding: 20px 40px 0;
+        padding: 18px 24px 20px;
+        border-radius: 8px;
+        background-color: rgb(248 248 248 / var(--tw-bg-opacity));
+        color: rgb(51 51 51 / var(--tw-text-opacity));
+        font-size: 16px;
+        line-height: 27px;
 
         &::after {
           --tw-bg-opacity: 1;
-          background-color: rgba(85, 85, 85, var(--tw-bg-opacity));
-          border-bottom-right-radius: 4px;
-          border-top-right-radius: 4px;
+
           content: '';
           display: block;
-          height: 12px;
-          left: 0;
           position: absolute;
           top: 25px;
+          left: 0;
           width: 4px;
+          height: 12px;
+          border-top-right-radius: 4px;
+          border-bottom-right-radius: 4px;
+          background-color: rgb(85 85 85 / var(--tw-bg-opacity));
         }
 
         .answer_compare {
-          margin-bottom: 16px;
           display: flex;
           align-items: center;
+          margin-bottom: 16px;
 
           .correct_answer {
             font-weight: 500;
 
             span {
-              display: inline-block;
               --tw-text-opacity: 1;
-              color: rgba(50, 202, 153, var(--tw-text-opacity));
+
+              display: inline-block;
+              color: rgb(50 202 153 / var(--tw-text-opacity));
             }
           }
 
           .your_answer {
-            font-weight: 500;
             margin-left: 20px;
+            font-weight: 500;
 
             span {
               display: inline-block;
@@ -640,12 +659,14 @@ const cardNumClick = (index: number) => {
 
           .red {
             --tw-text-opacity: 1;
-            color: rgba(255, 86, 27, var(--tw-text-opacity));
+
+            color: rgb(255 86 27 / var(--tw-text-opacity));
           }
 
           .green {
             --tw-text-opacity: 1;
-            color: rgba(50, 202, 153, var(--tw-text-opacity));
+
+            color: rgb(50 202 153 / var(--tw-text-opacity));
           }
         }
 
@@ -671,11 +692,12 @@ const cardNumClick = (index: number) => {
 
   .test-submit {
     --tw-bg-opacity: 1;
-    background-color: rgba(255, 255, 255, var(--tw-bg-opacity));
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
-    padding-bottom: 180px;
+
     padding-top: 48px;
+    padding-bottom: 180px;
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    background-color: rgb(255 255 255 / var(--tw-bg-opacity));
     text-align: center;
   }
 }

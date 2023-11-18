@@ -3,7 +3,7 @@ import {
   BankItem,
   SortInfo,
   SingleListReturnType,
-  SubmitQuestionParams, JudgeListReturnType
+  SubmitQuestionParams, JudgeListReturnType, MulListReturnType
 } from "./model/questionModel";
 
 enum Api {
@@ -25,7 +25,12 @@ export function getSingleListAPI(bankId: number){
   return defHttp.get<SingleListReturnType>({url:`/question/${bankId}/single`})
 }
 
-// 获取单选题列表
+// 获取多选题列表
+export function getMulListAPI(bankId: number){
+  return defHttp.get<MulListReturnType>({url:`/question/${bankId}/multiple`})
+}
+
+// 获取判断题题列表
 export function getJudgeListAPI(bankId: number){
   return defHttp.get<JudgeListReturnType>({url:`/question/${bankId}/judge`})
 }

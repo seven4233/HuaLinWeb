@@ -29,6 +29,14 @@ export type SingleOption = {
   selected: boolean
   question_index:number
 }
+
+export type MultipleOption = {
+  label: string
+  value: string
+  question_num: string
+  selected: boolean
+  question_index:number
+}
 export type SingleItem = {
   question_num: string
   type: string
@@ -39,6 +47,17 @@ export type SingleItem = {
   answer: string
   question_index: number;
   your?:string;
+}
+export type MultipleItem = {
+  question_num: string
+  type: string
+  name: string
+  source: string
+  source_dic:string;
+  options: MultipleOption[]
+  answer: string
+  question_index: number;
+  your:'';
 }
 export type JudgeItem = {
   question_num: string
@@ -62,6 +81,11 @@ export type JudgeListReturnType = {
   doneCount: number;
   totalCount: number;
   list: JudgeItem[]
+}
+export type MulListReturnType = {
+  doneCount: number;
+  totalCount: number;
+  list: MultipleItem[]
 }
 
 export type UserInfo = {

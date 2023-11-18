@@ -19,7 +19,9 @@ enum Api {
   GetUserInfo = '/user/getUserInfo',
   GetPermCode = '/getPermCode',
   TestRetry = '/testRetry',
-  UpdateUserInfo = '/user/update'
+  UpdateUserInfo = '/user/update',
+
+  GetNotifyList = '/user/notify'
 }
 
 /**
@@ -67,6 +69,11 @@ export function loginByMobile(params: LoginMobileParams) {
 // 更新用户信息
 export function updateUserInfo(params){
   return defHttp.put({url: Api.UpdateUserInfo, params})
+}
+
+// 获取通知公告
+export function getNotifyListAPI(){
+  return defHttp.get({url: Api.GetNotifyList})
 }
 
 export function getPermCode() {

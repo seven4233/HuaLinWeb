@@ -1,13 +1,13 @@
 <script lang="ts" setup>
 import { onMounted, ref } from "vue";
-import { useSingleStore } from "@/store/modules/singleStore";
 import { useRoute } from "vue-router";
-import { SingleOption } from "@/api/sys/model/questionModel";
+import { MultipleOption } from "@/api/sys/model/questionModel";
 import { Modal } from "ant-design-vue";
 import { useGo } from "@/hooks/web/usePage";
 import { useQuestionStore } from "@/store/modules/questionStore";
+import { useMultipleStore } from "/@/store/modules/multipleStore";
 
-const singleStore = useSingleStore();
+const multipleStore = useMultipleStore();
 const route = useRoute();
 const questionStore = useQuestionStore()
 const cardNumList = ref([
@@ -30,15 +30,15 @@ const cardNumList = ref([
 ]);
 const currentCardIndex = ref(0);
 onMounted(() => {
-  singleStore.isSubmit = false;
-  // 获取单选题列表
-  singleStore.getSingleListAction(Number(route.params.id));
+  multipleStore.isSubmit = false;
+  // 获取多选题列表
+  multipleStore.getMultipleListAction(Number(route.params.id));
 
 });
 
 
-const itemClick = (item: SingleOption, index: number) => {
-  singleStore.selectedAction(item);
+const itemClick = (item: MultipleOption, index: number) => {
+  multipleStore.selectedAction(item);
   console.log(item);
 
   // index
@@ -46,18 +46,18 @@ const itemClick = (item: SingleOption, index: number) => {
 
 // 提交
 const handleSubmit = () => {
-  console.log(singleStore.selectedValue);
+  console.log(multipleStore.selectedValue);
 
-  if (!singleStore.isFinished) {
+  if (!multipleStore.isFinished) {
     Modal.confirm({
-      title: `你还有 ${singleStore.leftQuestion} 道未完成的题目, 确定交卷?`,
+      title: `你还有 ${multipleStore.leftQuestion} 道未完成的题目, 确定交卷?`,
       zIndex:99999999,
       cancelText:'再想想',
       onOk: async () => {
         //   发送提交请求
-        await singleStore.addFinishedQuestion({bankId: +route.params.id, sort:'单选题', correctList: singleStore.correctList as any});
+        await multipleStore.addFinishedQuestion({bankId: +route.params.id, sort:'多选题', correctList: multipleStore.correctList as any});
         // TODO 跳转已提交页面
-        go(`/bank/${Number(route.params.id)}/single_submit`)
+        go(`/bank/${Number(route.params.id)}/multiple_submit`)
       },
       onCancel() {
 
@@ -70,8 +70,8 @@ const handleSubmit = () => {
         zIndex:99999999,
         onOk: async () => {
           //   发送提交请求
-          await singleStore.addFinishedQuestion({bankId: +route.params.id, sort:'单选题', correctList: singleStore.correctList as any});
-          go(`/bank/${Number(route.params.id)}/single_submit`)
+          await multipleStore.addFinishedQuestion({bankId: +route.params.id, sort:'多选题', correctList: multipleStore.correctList as any});
+          go(`/bank/${Number(route.params.id)}/multiple_submit`)
         },
         onCancel() {
 
@@ -99,7 +99,7 @@ const cardNumClick = (index: number) => {
 </script>
 
 <template>
-  <div id="single" class="single">
+  <div id="multiple" class="multiple">
     <div class="header">
       <div class="header-content">
         <div class="customer-exit" @click="exitQuestion">
@@ -124,7 +124,7 @@ const cardNumClick = (index: number) => {
             <div style="margin-right: 8px; padding-top: 4px">
               <div class="card_num empty" :class="{
                 running: index === currentCardIndex,
-                'done': singleStore.doneArr?.includes(index)
+                'done': multipleStore.doneArr?.includes(index)
               }">
                 {{ item.value }}
               </div>
@@ -140,12 +140,12 @@ const cardNumClick = (index: number) => {
     </div>
     <!-- 提交之前 -->
     <div  class="page-wrapper">
-      <template v-for="(item, index) in singleStore.singleList" :key="index">
+      <template v-for="(item, index) in multipleStore.multipleList" :key="index">
         <!-- 一题 -->
         <div class="item" :id="index + ''">
           <div class="title">
             <div class="question-desc-header">
-              <div class="commonClass singleClass">单选题</div>
+              <div class="commonClass multipleClass">多选题</div>
               <div class="rightAction">
                     <div class="collectIcon">
                       <span>
@@ -172,7 +172,7 @@ const cardNumClick = (index: number) => {
           </div>
           <!-- 选项区 -->
           <div class="question-select">
-            <div class="option-item" :class="{ 'option-item-selected': i.selected === true }"
+            <div v-show="i.label" class="option-item" :class="{ 'option-item-selected': i.selected === true }"
                  v-for="(i, index) in item.options" :key="i.value" @click="itemClick(i, index)">
               <div class="label">{{ i.value }}</div>
               <div class="content">{{ i.label }}</div>
@@ -191,7 +191,7 @@ const cardNumClick = (index: number) => {
 </template>
 
 <style lang="less" scoped>
-.single {
+.multiple {
   .header {
     --tw-bg-opacity: 1;
 
@@ -379,12 +379,9 @@ const cardNumClick = (index: number) => {
             line-height: 14px;
           }
 
-          .singleClass {
-            --tw-bg-opacity: 1;
-            --tw-text-opacity: 1;
-
-            background-color: rgb(227 243 255 / var(--tw-bg-opacity));
-            color: rgb(0 117 255 / var(--tw-text-opacity));
+          .multipleClass {
+            background-color: rgb(255 0 0);
+            color: rgb(255 255 255);
           }
 
           .rightAction {

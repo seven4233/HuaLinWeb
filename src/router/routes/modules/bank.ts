@@ -67,7 +67,29 @@ const bank: AppRouteModule = {
         ignoreKeepAlive: true
       }
     },
-
+    {
+      path: ':id/multiple',
+      name: 'Multiple',
+      component: () => import('/@/views/bank/components/Multiple.vue'),
+      meta: {
+        title: "多选题",
+        icon: 'ant-design:book-outlined',
+        hideMenu:true,
+        ignoreKeepAlive:true,
+      },
+    },
+    {
+      path: ':id/multiple_submit',
+      name: 'MultipleSubmit',
+      component: () => import('/@/views/bank/components/MultipleSubmit.vue'),
+      meta: {
+        title: "多选题",
+        icon: 'ant-design:book-outlined',
+        hideMenu: true,
+        hideTab:true,
+        ignoreKeepAlive: true
+      }
+    },
     {
       path: ':id/judge',
       name: 'Judge',

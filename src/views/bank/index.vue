@@ -68,59 +68,69 @@ const itemClick = (bank: any) => {
       .question_list {
         display: flex;
         flex-wrap: wrap;
+
         .question_item {
-          transition: all 0.2s ease;
           position: relative;
-          height: 94px;
           width: 376px;
-          cursor: pointer;
-          border-radius: 12px;
-          background-color: rgba(248, 248, 248, 1);
+          height: 94px;
           padding: 16px 20px 16px 16px;
+          transition: all 0.2s ease;
+          border-radius: 12px;
+          background-color: rgb(248 248 248 / 100%);
+          cursor: pointer;
+
           &:hover {
-            transform: translateY(-4px);
             --tw-ring-offset-shadow: 0 0 #0000;
             --tw-ring-shadow: 0 0 #0000;
-            --tw-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.02), 0 2px 12px 0 rgba(0, 0, 0, 0.04),
-            0 2px 6px 0 rgba(0, 0, 0, 0.02);
+            --tw-shadow: 0 1px 4px 0 rgb(0 0 0 / 2%), 0 2px 12px 0 rgb(0 0 0 / 4%),
+            0 2px 6px 0 rgb(0 0 0 / 2%);
 
+            transform: translateY(-4px);
+            transition: all 0.2s ease;
+            background-color: #fff;
             box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000),
             var(--tw-shadow);
-            background-color: #fff;
-            color: rgba(50, 202, 153, 1);
-            transition: all 0.2s ease;
+            color: rgb(50 202 153 / 100%);
+
             .center .text a {
-              color: rgba(50, 202, 153, 1);
+              color: rgb(50 202 153 / 100%);
             }
           }
+
           .center {
             display: flex;
             align-items: center;
             height: 48px;
+
             .picture {
+              width: 48px;
+              height: 48px;
               margin-top: 4px;
               margin-right: 8px;
-              height: 48px;
-              width: 48px;
               overflow: hidden;
               border-radius: 12px;
+
               img {
                 width: 100%;
                 height: 100%;
               }
             }
+
             .text {
               flex: 1 1 0%;
-              color: rgba(51, 51, 51, 1);
               transition: all 0.2s ease;
+              color: rgb(51 51 51 / 100%);
+
               a {
                 font-size: 14px;
                 line-height: 21px;
+
                 img {
-                  vertical-align: -1px;
                   width: 14px;
                   height: 14px;
+                  vertical-align: -1px;
                 }
+
                 span {
                 }
               }
@@ -128,20 +138,21 @@ const itemClick = (bank: any) => {
           }
 
           .bottom {
-            text-align: right;
+            color: rgb(153 153 153 / 100%);
             font-size: 14px;
             line-height: 14px;
-            color: rgba(153, 153, 153, 1);
+            text-align: right;
+
             .ncicon {
+              display: inline-block;
               margin-left: 4px;
-              color: rgba(204, 204, 204, 1);
+              color: rgb(204 204 204 / 100%);
               -webkit-font-smoothing: antialiased;
               -moz-osx-font-smoothing: grayscale;
-              display: inline-block;
               font-style: normal;
               line-height: 0;
               text-align: center;
-              text-rendering: optimizeLegibility;
+              text-rendering: optimizelegibility;
               text-transform: none;
               vertical-align: -0.15em;
             }
