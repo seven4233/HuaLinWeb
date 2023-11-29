@@ -3,7 +3,7 @@ import { defHttp } from '/@/utils/http/axios';
 import { UploadFileParams } from '/#/axios';
 import { useGlobSetting } from '/@/hooks/setting';
 
-const { uploadUrl = 'basic-api/user/avatar' } = useGlobSetting();
+const { uploadUrl = 'user/avatar' } = useGlobSetting();
 
 /**
  * @description: Upload interface
@@ -14,7 +14,8 @@ export function uploadApi(
 ) {
   return defHttp.uploadFile<UploadApiResult>(
     {
-      baseURL:"http://111.230.25.143:3001",
+      // baseURL:"http://111.230.25.143:3000",
+      baseURL:"http://localhost:3000",
       url: uploadUrl,
       onUploadProgress,
     },
